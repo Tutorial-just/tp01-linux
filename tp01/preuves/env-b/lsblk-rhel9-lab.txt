@@ -1,0 +1,24 @@
+TEXTE EXTRAIT DU PDF - ENVIRONNEMENT B
+Source : page 11
+
+NAME               FSTYPE      FSVER            LABEL                    
+UUID                                   FSAVAIL FSUSE% MOUNTPOINTS 
+sr0                iso9660     Joliet Extension RHEL-9-8-0-BaseOS-x86_64 
+2026-05-11-17-14-45-00                                 
+nvme0n1                                                                   
+├─nvme0n1p1        vfat        FAT32                                     
+4A93-63D5                               503,4M     1% /boot/efi 
+├─nvme0n1p2        xfs                                                   
+1313d417-ace1-48cd-b603-542b42d1410a    651,7M    32% /boot 
+└─nvme0n1p3        LVM2_member LVM2 001                                  
+C7uZfR-VUrp-05ft-huPH-TyH5-T4ep-mbps1V                 
+ ├─vg_sys-lv_root xfs                                                   
+62a31a27-ffff-42cb-ac7f-d19cc2992568     15,9G    11% / 
+ ├─vg_sys-lv_swap swap        1                                         
+9a0bb38b-d062-4c62-8b96-e83ac7340b73                  [SWAP] 
+ ├─vg_sys-lv_var  xfs                                                   
+e68e735c-f44d-4dc4-99a0-7801eefcc987      9,3G     6% /var 
+ ├─vg_sys-lv_home xfs                                                   
+f42f6a5e-d6d1-4796-8f23-53603f437092      4,8G     3% /home 
+ └─vg_sys-var_log xfs                                                   
+e2c27a6d-604e-4d26-96a5-adf46fd3ea38      4,9G     2% /var/log

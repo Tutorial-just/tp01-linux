@@ -1,0 +1,32 @@
+EXPORT DIRECT DE LA VM
+Environnement : env-a
+2026-10-25T10:09:57+00:00
+ubuntu24-lab
+
+$ lsblk -f 
+NAME               FSTYPE      FSVER            LABEL                           UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                                                                   
+├─sda1                                                                                                                                
+├─sda2             ext4        1.0                                              cdd73829-5a79-4dea-af36-815f97fb63dd    706,3M    21% /boot
+└─sda3             LVM2_member LVM2 001                                         3L2ZOg-5sq2-9j2U-bw9U-hH3R-AWIW-a6ssRs                
+  ├─vg_sys-lv_root ext4        1.0                                              34198a91-8f0b-4af5-b685-7830d478b6d0        6G    33% /
+  ├─vg_sys-lv_var  ext4        1.0                                              8f896da1-2340-4c0f-aafb-9f8ca85744b0      4,2G     9% /var
+  ├─vg_sys-lv_log  ext4        1.0                                              4bb3c501-c65a-4777-b511-0e38681070cb      2,2G     2% /var/log
+  ├─vg_sys-lv_home ext4        1.0                                              3a4ac5b3-c9e5-4d79-893b-56a67dda52f7      2,2G     0% /home
+  └─vg_sys-swap    swap        1                                                1d76819f-0d8a-4e4b-8d70-92201348d300                  [SWAP]
+sr0                iso9660     Joliet Extension Ubuntu-Server 24.04.5 LTS amd64 2026-09-09-09-12-22-00                                
+[code_retour=0]
+
+$ lsblk -o NAME\,SIZE\,TYPE\,FSTYPE\,MOUNTPOINTS 
+NAME                SIZE TYPE FSTYPE      MOUNTPOINTS
+sda                  25G disk             
+├─sda1                1M part             
+├─sda2                1G part ext4        /boot
+└─sda3               24G part LVM2_member 
+  ├─vg_sys-lv_root   10G lvm  ext4        /
+  ├─vg_sys-lv_var     5G lvm  ext4        /var
+  ├─vg_sys-lv_log   2,5G lvm  ext4        /var/log
+  ├─vg_sys-lv_home  2,5G lvm  ext4        /home
+  └─vg_sys-swap       2G lvm  swap        [SWAP]
+sr0                 3,8G rom  iso9660     
+[code_retour=0]

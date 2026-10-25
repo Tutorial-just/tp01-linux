@@ -1,0 +1,22 @@
+TEXTE EXTRAIT DU PDF - ENVIRONNEMENT B
+Source : page 16
+
+NAME                FSTYPE      FSVER    LABEL UUID                       
+FSAVAIL FSUSE% MOUNTPOINTS 
+sda                                                                       
+├─sda1                                                                    
+├─sda2              ext4        1.0            315d6a11-df62-4a55-8b71-
+a6c72f4b2793    707.4M    20% /boot 
+└─sda3              LVM2_member LVM2 001       4KVRn0-zUcq-N3wq-n5xK-
+Flu6-OWI1-1nupm3                 
+ ├─vg_sys-lv--root ext4        1.0            d750974a-289e-4484-84f9-
+8bcbe1804e68      8.3G    24% / 
+ ├─vg_sys-lv--var  ext4        1.0            ff3b4037-0887-4c94-94f3-
+ad0e3611e4e9      3.3G     9% /var 
+ ├─vg_sys-lv--home ext4        1.0            17b6c281-ee47-4890-a776-
+5e23d3ae0e53    906.1M     0% /home 
+ ├─vg_sys-lv--swap swap        1              c5f6dc38-3e98-4211-99fa-
+4eb792cc1f11                  [SWAP] 
+ └─vg_sys-lv--loh  ext4        1.0            ccc35db4-97ad-4c00-bfc7-
+9b121ee0009e      1.7G     5% /var/log 
+sr0

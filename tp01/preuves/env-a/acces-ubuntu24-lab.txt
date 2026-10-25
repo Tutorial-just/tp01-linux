@@ -1,0 +1,25 @@
+﻿TEST DE CONNEXION DEPUIS WINDOWS
+2026-10-25T11:10:17.2397202+01:00
+Compte : vlad@192.168.198.129
+2026-10-25T10:10:17+00:00
+ubuntu24-lab
+uid=1000(vlad) gid=1000(vlad) groups=1000(vlad),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),101(lxd)
+[sudo] password for vlad: 
+Sorry, try again.
+[sudo] password for vlad: 
+KSorry, try again.
+[sudo] password for vlad: 
+Matching Defaults entries for vlad on ubuntu24-lab:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User vlad may run the following commands on ubuntu24-lab:
+    (ALL : ALL) ALL
+uid=0(root) gid=0(root) groups=0(root)
+Connection to 192.168.198.129 closed.
+Code retour connexion par cle : 0
+
+TEST DU REFUS ROOT
+root@192.168.198.129: Permission denied (publickey,password).
+Code retour test root : 255

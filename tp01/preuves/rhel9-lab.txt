@@ -1,0 +1,513 @@
+EXPORT DIRECT DE LA VM
+Environnement : env-a
+Machine attendue : rhel9-lab
+Debut : 2026-10-25T11:07:34+01:00
+
+$ hostnamectl 
+ Static hostname: rhel9-lab
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: c8c85855287f4390a2661f24bb874557
+         Boot ID: 4941eada4ac94c6ca036c093bd4c00e9
+  Virtualization: vmware
+Operating System: Red Hat Enterprise Linux 9.8 (Plow)
+     CPE OS Name: cpe:/o:redhat:enterprise_linux:9::baseos
+          Kernel: Linux 5.14.0-687.54.1.el9_8.x86_64
+    Architecture: x86-64
+ Hardware Vendor: VMware, Inc.
+  Hardware Model: VMware20,1
+Firmware Version: VMW201.00V.24006586.B64.2406042154
+[code_retour=0]
+
+$ cat /etc/os-release 
+NAME="Red Hat Enterprise Linux"
+VERSION="9.8 (Plow)"
+ID="rhel"
+ID_LIKE="fedora"
+VERSION_ID="9.8"
+PLATFORM_ID="platform:el9"
+PRETTY_NAME="Red Hat Enterprise Linux 9.8 (Plow)"
+ANSI_COLOR="0;31"
+LOGO="fedora-logo-icon"
+CPE_NAME="cpe:/o:redhat:enterprise_linux:9::baseos"
+HOME_URL="https://www.redhat.com/"
+DOCUMENTATION_URL="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9"
+BUG_REPORT_URL="https://issues.redhat.com/"
+
+REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 9"
+REDHAT_BUGZILLA_PRODUCT_VERSION=9.8
+REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
+REDHAT_SUPPORT_PRODUCT_VERSION="9.8"
+[code_retour=0]
+
+$ uname -r 
+5.14.0-687.54.1.el9_8.x86_64
+[code_retour=0]
+
+$ lsblk -f 
+NAME               FSTYPE      FSVER            LABEL                    UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                                                            
+├─sda1             vfat        FAT32                                     D461-62E9                               591,2M     1% /boot/efi
+├─sda2             xfs                                                   17ee0383-4c42-4f02-863f-b3892b4993b6    713,5M    26% /boot
+└─sda3             LVM2_member LVM2 001                                  nd3VFH-T52N-8jN8-BUvJ-WwqM-t2Rg-5cpySt                
+  ├─vg_sys-lv_root xfs                                                   34165a65-8528-4856-b0cb-8757400152cc      8,1G    19% /
+  ├─vg_sys-lv_swap swap        1                                         720be2eb-75f5-4ddb-af27-6e0487c14672                  [SWAP]
+  ├─vg_sys-lv_home xfs                                                   1d1f44d3-c954-4fb7-9ed4-f4aab58820ac      2,4G     2% /home
+  ├─vg_sys-lv_log  xfs                                                   f080b1c1-89bb-4a0c-92d7-e98feaa50935      2,4G     3% /var/log
+  └─vg_sys-lv_var  xfs                                                   18b0b273-d87b-4d61-af99-d26cbb3b969f      4,4G    12% /var
+sr0                iso9660     Joliet Extension RHEL-9-8-0-BaseOS-x86_64 2026-05-11-17-14-45-00                                
+[code_retour=0]
+
+$ lsblk -o NAME\,SIZE\,TYPE\,FSTYPE\,MOUNTPOINTS 
+NAME                SIZE TYPE FSTYPE      MOUNTPOINTS
+sda                  30G disk             
+├─sda1              600M part vfat        /boot/efi
+├─sda2                1G part xfs         /boot
+└─sda3               27G part LVM2_member 
+  ├─vg_sys-lv_root   10G lvm  xfs         /
+  ├─vg_sys-lv_swap    2G lvm  swap        [SWAP]
+  ├─vg_sys-lv_home  2,5G lvm  xfs         /home
+  ├─vg_sys-lv_log   2,5G lvm  xfs         /var/log
+  └─vg_sys-lv_var     5G lvm  xfs         /var
+sr0                 1,4G rom  iso9660     
+[code_retour=0]
+
+$ df -hT 
+Sys. de fichiers           Type     Taille Utilisé Dispo Uti% Monté sur
+devtmpfs                   devtmpfs   815M       0  815M   0% /dev
+tmpfs                      tmpfs      838M       0  838M   0% /dev/shm
+tmpfs                      tmpfs      335M    5,0M  330M   2% /run
+efivarfs                   efivarfs   256K     57K  195K  23% /sys/firmware/efi/efivars
+/dev/mapper/vg_sys-lv_root xfs         10G    1,9G  8,1G  19% /
+/dev/sda2                  xfs        960M    247M  714M  26% /boot
+/dev/sda1                  vfat       599M    7,7M  592M   2% /boot/efi
+/dev/mapper/vg_sys-lv_home xfs        2,5G     50M  2,4G   2% /home
+/dev/mapper/vg_sys-lv_var  xfs        5,0G    588M  4,4G  12% /var
+/dev/mapper/vg_sys-lv_log  xfs        2,5G     63M  2,4G   3% /var/log
+tmpfs                      tmpfs      168M       0  168M   0% /run/user/1000
+[code_retour=0]
+
+$ sudo pvs 
+  PV         VG     Fmt  Attr PSize  PFree
+  /dev/sda3  vg_sys lvm2 a--  27,00g 5,00g
+[code_retour=0]
+
+$ sudo vgs 
+  VG     #PV #LV #SN Attr   VSize  VFree
+  vg_sys   1   5   0 wz--n- 27,00g 5,00g
+[code_retour=0]
+
+$ sudo lvs -o lv_name\,vg_name\,lv_size\,lv_path 
+  LV      VG     LSize  Path               
+  lv_home vg_sys  2,50g /dev/vg_sys/lv_home
+  lv_log  vg_sys  2,50g /dev/vg_sys/lv_log 
+  lv_root vg_sys 10,00g /dev/vg_sys/lv_root
+  lv_swap vg_sys  2,00g /dev/vg_sys/lv_swap
+  lv_var  vg_sys  5,00g /dev/vg_sys/lv_var 
+[code_retour=0]
+
+$ swapon --show 
+NAME      TYPE      SIZE USED PRIO
+/dev/dm-1 partition   2G   0B   -2
+[code_retour=0]
+
+$ findmnt --target /var/log 
+TARGET   SOURCE                    FSTYPE OPTIONS
+/var/log /dev/mapper/vg_sys-lv_log xfs    rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota
+[code_retour=0]
+
+$ findmnt --target /tmp 
+TARGET SOURCE                     FSTYPE OPTIONS
+/      /dev/mapper/vg_sys-lv_root xfs    rw,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota
+[code_retour=0]
+
+$ cat /etc/fstab 
+
+#
+# /etc/fstab
+# Created by anaconda on Fri Oct  2 08:37:29 2026
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk/'.
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info.
+#
+# After editing this file, run 'systemctl daemon-reload' to update systemd
+# units generated from this file.
+#
+/dev/mapper/vg_sys-lv_root /                       xfs     defaults        0 0
+UUID=17ee0383-4c42-4f02-863f-b3892b4993b6 /boot                   xfs     defaults        0 0
+UUID=D461-62E9          /boot/efi               vfat    umask=0077,shortname=winnt 0 2
+/dev/mapper/vg_sys-lv_home /home                   xfs     defaults        0 0
+/dev/mapper/vg_sys-lv_var /var                    xfs     defaults        0 0
+/dev/mapper/vg_sys-lv_log /var/log                xfs     defaults        0 0
+/dev/mapper/vg_sys-lv_swap none                    swap    defaults        0 0
+[code_retour=0]
+
+$ localectl status 
+System Locale: LANG=fr_FR.UTF-8
+    VC Keymap: fr-oss
+   X11 Layout: fr
+  X11 Variant: oss
+[code_retour=0]
+
+$ locale -a 
+C
+C.utf8
+fr_BE
+fr_BE@euro
+fr_BE.utf8
+fr_CA
+fr_CA.utf8
+fr_CH
+fr_CH.utf8
+fr_FR
+fr_FR@euro
+fr_FR.utf8
+fr_LU
+fr_LU@euro
+fr_LU.utf8
+POSIX
+[code_retour=0]
+
+$ timedatectl status 
+               Local time: dim. 2026-10-25 11:07:34 CET
+           Universal time: dim. 2026-10-25 10:07:34 UTC
+                 RTC time: dim. 2026-10-25 10:07:34
+                Time zone: Europe/Paris (CET, +0100)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+[code_retour=0]
+
+$ systemctl --failed --no-pager 
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+0 loaded units listed.
+[code_retour=0]
+
+$ systemctl list-units --type=service --state=running --no-pager 
+  UNIT                      LOAD   ACTIVE SUB     DESCRIPTION
+  auditd.service            loaded active running Security Auditing Service
+  chronyd.service           loaded active running NTP client/server
+  crond.service             loaded active running Command Scheduler
+  dbus-broker.service       loaded active running D-Bus System Message Bus
+  firewalld.service         loaded active running firewalld - dynamic firewall daemon
+  getty@tty1.service        loaded active running Getty on tty1
+  irqbalance.service        loaded active running irqbalance daemon
+  NetworkManager.service    loaded active running Network Manager
+  polkit.service            loaded active running Authorization Manager
+  rhsmcertd.service         loaded active running Enable periodic update of entitlement certificates.
+  sshd.service              loaded active running OpenSSH server daemon
+  systemd-hostnamed.service loaded active running Hostname Service
+  systemd-journald.service  loaded active running Journal Service
+  systemd-localed.service   loaded active running Locale Service
+  systemd-logind.service    loaded active running User Login Management
+  systemd-timedated.service loaded active running Time & Date Service
+  systemd-udevd.service     loaded active running Rule-based Manager for Device Events and Files
+  user@1000.service         loaded active running User Manager for UID 1000
+  vgauthd.service           loaded active running VGAuth Service for open-vm-tools
+  vmtoolsd.service          loaded active running Service for virtual machines hosted on VMware
+
+LOAD   = Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB    = The low-level unit activation state, values depend on unit type.
+20 loaded units listed.
+[code_retour=0]
+
+$ id 
+uid=1000(vlad) gid=1000(vlad) groupes=1000(vlad),10(wheel) contexte=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[code_retour=0]
+
+$ getent group wheel 
+wheel:x:10:vlad
+[code_retour=0]
+
+$ getent group sudo 
+[code_retour=2]
+
+$ sudo -l 
+Entrées Defaults correspondant pour vlad sur rhel9-lab :
+    !visiblepw, always_set_home, match_group_by_gid, always_query_group_plugin, env_reset, env_keep="COLORS DISPLAY
+    HOSTNAME HISTSIZE KDEDIR LS_COLORS", env_keep+="MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE",
+    env_keep+="LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES", env_keep+="LC_MONETARY LC_NAME LC_NUMERIC
+    LC_PAPER LC_TELEPHONE", env_keep+="LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY",
+    secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin
+
+L'utilisateur vlad peut utiliser les commandes suivantes sur rhel9-lab :
+    (ALL) ALL
+[code_retour=0]
+
+$ sudo id 
+uid=0(root) gid=0(root) groupes=0(root) contexte=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[code_retour=0]
+
+$ sudo passwd -S root 
+[code_retour=0]
+
+$ sudo /usr/sbin/sshd -t 
+[code_retour=0]
+
+$ sudo /usr/sbin/sshd -T 
+port 22
+addressfamily any
+listenaddress [::]:22
+listenaddress 0.0.0.0:22
+usepam yes
+pamservicename sshd
+logingracetime 120
+x11displayoffset 10
+x11maxdisplays 1000
+maxauthtries 6
+maxsessions 10
+clientaliveinterval 0
+clientalivecountmax 3
+requiredrsasize 2048
+streamlocalbindmask 0177
+unusedconnectiontimeout none
+permitrootlogin no
+ignorerhosts yes
+ignoreuserknownhosts no
+hostbasedauthentication no
+hostbasedusesnamefrompacketonly no
+pubkeyauthentication yes
+kerberosauthentication no
+kerberosorlocalpasswd yes
+kerberosticketcleanup yes
+kerberosuniqueccache no
+kerberosusekuserok yes
+gssapienablek5users no
+gssapiauthentication yes
+gssapicleanupcredentials no
+gssapikeyexchange no
+gssapistrictacceptorcheck yes
+gssapistorecredentialsonrekey no
+gssapikexalgorithms gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-
+gssapiindicators none
+passwordauthentication yes
+kbdinteractiveauthentication no
+printmotd no
+printlastlog yes
+x11forwarding yes
+x11uselocalhost yes
+permittty yes
+permituserrc yes
+strictmodes yes
+tcpkeepalive yes
+permitemptypasswords no
+compression yes
+gatewayports no
+usedns no
+allowtcpforwarding yes
+allowagentforwarding yes
+disableforwarding no
+allowstreamlocalforwarding yes
+streamlocalbindunlink no
+fingerprinthash SHA256
+exposeauthinfo no
+refuseconnection no
+canonicalmatchuser no
+pidfile /var/run/sshd.pid
+modulifile /etc/ssh/moduli
+xauthlocation /usr/bin/xauth
+ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr
+macs hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512
+banner none
+forcecommand none
+chrootdirectory none
+trustedusercakeys none
+revokedkeys none
+securitykeyprovider internal
+authorizedprincipalsfile none
+versionaddendum none
+authorizedkeyscommand none
+authorizedkeyscommanduser none
+authorizedprincipalscommand none
+authorizedprincipalscommanduser none
+hostkeyagent none
+kexalgorithms curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512
+casignaturealgorithms ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,sk-ssh-ed25519@openssh.com,rsa-sha2-256,rsa-sha2-512
+hostbasedacceptedalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256
+hostkeyalgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-512-cert-v01@openssh.com
+pubkeyacceptedalgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-512-cert-v01@openssh.com
+sshdsessionpath /usr/libexec/openssh/sshd-session
+persourcepenaltyexemptlist none
+loglevel INFO
+syslogfacility AUTHPRIV
+authorizedkeysfile .ssh/authorized_keys
+hostkey /etc/ssh/ssh_host_rsa_key
+hostkey /etc/ssh/ssh_host_ecdsa_key
+hostkey /etc/ssh/ssh_host_ed25519_key
+authenticationmethods any
+channeltimeout none
+subsystem sftp /usr/libexec/openssh/sftp-server
+maxstartups 10:30:100
+persourcemaxstartups none
+persourcenetblocksize 32:128
+permittunnel no
+ipqos af21 cs1
+rekeylimit 0 0
+permitopen any
+permitlisten any
+permituserenvironment no
+pubkeyauthoptions none
+persourcepenalties crash:90 authfail:5 noauth:1 grace-exceeded:10 refuseconnection:10 max:600 min:15 max-sources4:65536 max-sources6:65536 overflow:permissive overflow6:permissive
+[code_retour=0]
+
+$ ip -br a 
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+ens160           UP             192.168.198.128/24 fe80::20c:29ff:fe8b:5534/64 
+ens192           UP             fe80::20c:29ff:fe8b:553e/64 
+[code_retour=0]
+
+$ ip route 
+default via 192.168.198.2 dev ens160 proto dhcp src 192.168.198.128 metric 100 
+192.168.198.0/24 dev ens160 proto kernel scope link src 192.168.198.128 metric 100 
+[code_retour=0]
+
+$ sudo dnf history 
+Mise à jour des référentiels de gestion des abonnements.
+ID     | Ligne de commande                                                 | Date et heure    | Action(s)      | Modifié
+------------------------------------------------------------------------------------------------------------------------
+     3 | install -y gcc make glibc-devel strace valgrind                   | 2026-10-22 14:25 | I, U           |   86   
+     2 | install -y nano                                                   | 2026-10-02 12:07 | Install        |    1  <
+     1 |                                                                   | 2026-10-02 10:39 | Install        |  433 >E
+[code_retour=0]
+
+$ sudo dnf history info last 
+Mise à jour des référentiels de gestion des abonnements.
+Identifiant de transaction : 3
+Temps de début    : jeu. 22 oct. 2026 14:25:15
+Début de RPMDB    : dfd26b756de7a1e764aa12a0816105da70df1634ea9098bb0ebbc69b5fd24d27
+Temps de fin : jeu. 22 oct. 2026 14:25:22 (7 secondes)
+Fin de RPMDB : 638565678f26aada174625fcab792bd2e1f421791277edad3a96ee327020a871
+Utilisateur  : Vlad <vlad>
+Code de retour  : Réussi
+Version      : 9
+Ligne de commande : install -y gcc make glibc-devel strace valgrind
+Persistence    : Persist
+Commentaire : 
+Paquets modifiés :
+    Installer perl-Data-Dumper-2.174-462.el9.x86_64        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Digest-MD5-2.58-4.el9.x86_64            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Encode-4:3.08-462.el9.x86_64            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Mozilla-CA-20200520-6.el9.noarch        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Pod-Simple-1:3.42-4.el9.noarch          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Term-Cap-1.17-460.el9.noarch            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Time-Local-2:1.300-7.el9.noarch         @rhel-9-for-x86_64-appstream-rpms
+    Installer libipt-2.0.4-5.el9.x86_64                    @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Pod-Escapes-1:1.07-460.el9.noarch       @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Storable-1:3.21-460.el9.x86_64          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Unicode-Normalize-1.27-461.el9.x86_64   @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-podlators-1:4.14-460.el9.noarch         @rhel-9-for-x86_64-appstream-rpms
+    Installer libmpc-1.2.1-4.el9.x86_64                    @rhel-9-for-x86_64-appstream-rpms
+    Installer libxcrypt-devel-4.4.18-3.el9.x86_64          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Exporter-5.74-461.el9.noarch            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-File-Temp-1:0.231.100-4.el9.noarch      @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Getopt-Long-1:2.52-4.el9.noarch         @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-MIME-Base64-3.16-4.el9.x86_64           @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Text-Tabs+Wrap-2013.0523-460.el9.noarch @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-parent-1:0.238-460.el9.noarch           @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Digest-1.19-4.el9.noarch                @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-File-Path-2.18-4.el9.noarch             @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-IO-Socket-IP-0.41-5.el9.noarch          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Pod-Usage-4:2.01-4.el9.noarch           @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Socket-4:2.031-4.el9.x86_64             @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Term-ANSIColor-5.01-461.el9.noarch      @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Text-ParseWords-3.30-460.el9.noarch     @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-constant-1.33-461.el9.noarch            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Pod-Perldoc-3.28.01-461.el9.noarch      @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-libnet-3.13-4.el9.noarch                @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Carp-1.50-460.el9.noarch                @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-PathTools-3.78-461.el9.x86_64           @rhel-9-for-x86_64-appstream-rpms
+    Installer libbabeltrace-1.5.8-10.el9.x86_64            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-HTTP-Tiny-0.076-462.el9.noarch          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-IO-Socket-SSL-2.073-2.el9.noarch        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Scalar-List-Utils-4:1.56-462.el9.x86_64 @rhel-9-for-x86_64-appstream-rpms
+    Installer source-highlight-3.1.9-12.el9.x86_64         @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Net-SSLeay-1.94-3.el9.x86_64            @rhel-9-for-x86_64-appstream-rpms
+    Installer boost-regex-1.75.0-13.el9_7.x86_64           @rhel-9-for-x86_64-appstream-rpms
+    Installer cpp-11.5.0-14.el9.x86_64                     @rhel-9-for-x86_64-appstream-rpms
+    Installer valgrind-1:3.26.0-5.el9.x86_64               @rhel-9-for-x86_64-appstream-rpms
+    Installer valgrind-docs-1:3.26.0-5.el9.x86_64          @rhel-9-for-x86_64-appstream-rpms
+    Installer valgrind-gdb-1:3.26.0-5.el9.x86_64           @rhel-9-for-x86_64-appstream-rpms
+    Installer valgrind-scripts-1:3.26.0-5.el9.x86_64       @rhel-9-for-x86_64-appstream-rpms
+    Installer gcc-11.5.0-14.el9.x86_64                     @rhel-9-for-x86_64-appstream-rpms
+    Installer gdb-16.3-3.1.el9_8.x86_64                    @rhel-9-for-x86_64-appstream-rpms
+    Installer gdb-headless-16.3-3.1.el9_8.x86_64           @rhel-9-for-x86_64-appstream-rpms
+    Installer glibc-devel-2.34-283.el9_8.x86_64            @rhel-9-for-x86_64-appstream-rpms
+    Installer glibc-headers-2.34-283.el9_8.x86_64          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-AutoLoader-5.74-484.el9_8.noarch        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-B-1.80-484.el9_8.x86_64                 @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Class-Struct-0.66-484.el9_8.noarch      @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Errno-1.30-484.el9_8.x86_64             @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Fcntl-1.13-484.el9_8.x86_64             @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-File-Basename-2.85-484.el9_8.noarch     @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-File-stat-1.09-484.el9_8.noarch         @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-FileHandle-2.03-484.el9_8.noarch        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Getopt-Std-1.12-484.el9_8.noarch        @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-IO-1.43-484.el9_8.x86_64                @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-IPC-Open3-1.21-484.el9_8.noarch         @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-NDBM_File-1.15-484.el9_8.x86_64         @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-POSIX-1.94-484.el9_8.x86_64             @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-SelectSaver-1.02-484.el9_8.noarch       @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-Symbol-1.08-484.el9_8.noarch            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-base-2.27-484.el9_8.noarch              @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-if-0.60.800-484.el9_8.noarch            @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-interpreter-4:5.32.1-484.el9_8.x86_64   @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-libs-4:5.32.1-484.el9_8.x86_64          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-mro-1.23-484.el9_8.x86_64               @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-overload-1.31-484.el9_8.noarch          @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-overloading-0.02-484.el9_8.noarch       @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-subs-1.03-484.el9_8.noarch              @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-vars-1.05-484.el9_8.noarch              @rhel-9-for-x86_64-appstream-rpms
+    Installer perl-URI-5.09-3.el9_8.1.noarch               @rhel-9-for-x86_64-appstream-rpms
+    Installer kernel-headers-5.14.0-687.60.1.el9_8.x86_64  @rhel-9-for-x86_64-appstream-rpms
+    Installer libpkgconf-1.7.3-10.el9.x86_64               @rhel-9-for-x86_64-baseos-rpms
+    Installer pkgconf-1.7.3-10.el9.x86_64                  @rhel-9-for-x86_64-baseos-rpms
+    Installer pkgconf-m4-1.7.3-10.el9.noarch               @rhel-9-for-x86_64-baseos-rpms
+    Installer pkgconf-pkg-config-1.7.3-10.el9.x86_64       @rhel-9-for-x86_64-baseos-rpms
+    Installer make-1:4.3-8.el9.x86_64                      @rhel-9-for-x86_64-baseos-rpms
+    Installer strace-6.12-1.el9.x86_64                     @rhel-9-for-x86_64-baseos-rpms
+    Installer libicu-67.1-10.el9_6.x86_64                  @rhel-9-for-x86_64-baseos-rpms
+    Upgrade   glibc-2.34-283.el9_8.x86_64                  @rhel-9-for-x86_64-baseos-rpms
+    Upgraded  glibc-2.34-275.el9_8.x86_64                  @@System
+    Upgrade   glibc-common-2.34-283.el9_8.x86_64           @rhel-9-for-x86_64-baseos-rpms
+    Upgraded  glibc-common-2.34-275.el9_8.x86_64           @@System
+    Upgrade   glibc-gconv-extra-2.34-283.el9_8.x86_64      @rhel-9-for-x86_64-baseos-rpms
+    Upgraded  glibc-gconv-extra-2.34-275.el9_8.x86_64      @@System
+    Upgrade   glibc-langpack-fr-2.34-283.el9_8.x86_64      @rhel-9-for-x86_64-baseos-rpms
+    Upgraded  glibc-langpack-fr-2.34-275.el9_8.x86_64      @@System
+[code_retour=0]
+
+$ sudo dnf repolist 
+Mise à jour des référentiels de gestion des abonnements.
+id du dépôt                      nom du dépôt
+rhel-9-for-x86_64-appstream-rpms Red Hat Enterprise Linux 9 for x86_64 - AppStream (RPMs)
+rhel-9-for-x86_64-baseos-rpms    Red Hat Enterprise Linux 9 for x86_64 - BaseOS (RPMs)
+[code_retour=0]
+
+$ rpm -q --last kernel-core 
+kernel-core-5.14.0-687.54.1.el9_8.x86_64      ven. 02 oct. 2026 10:39:43
+[code_retour=0]
+
+$ sudo firewall-cmd --get-active-zones 
+public
+  interfaces: ens160 ens192
+[code_retour=0]
+
+$ sudo firewall-cmd --list-all 
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens160 ens192
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+[code_retour=0]
+
+Fin : 2026-10-25T11:07:40+01:00

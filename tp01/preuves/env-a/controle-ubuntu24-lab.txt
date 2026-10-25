@@ -1,0 +1,139 @@
+CONTROLES EXECUTES SUR LA VM
+Environnement: env-a
+2026-10-25T10:10:11+00:00
+ Static hostname: ubuntu24-lab
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: 87dab541132945b183495699d74a4e7d
+         Boot ID: da172b9b8e714a5891e2f751918f7dfd
+  Virtualization: vmware
+Operating System: Ubuntu 24.04.5 LTS
+          Kernel: Linux 6.8.0-147-generic
+    Architecture: x86-64
+ Hardware Vendor: VMware, Inc.
+  Hardware Model: VMware Virtual Platform
+Firmware Version: 6.00
+   Firmware Date: Thu 2020-11-12
+    Firmware Age: 5y 11month 1w 5d
+
+CONTROLE: Nom de la machine
+$ bash -c test\ \"\$\(hostname\ -s\)\"\ =\ \"\$1\" _ ubuntu24-lab 
+RESULTAT: OK
+
+CONTROLE: Groupe LVM present et reserve libre non nulle
+$ bash -o pipefail -c sudo\ -n\ vgs\ --noheadings\ --units\ b\ --nosuffix\ -o\ vg_free\ vg_sys\ \|\ awk\ \"NF\ \{n++\;\ if\ \(\(\\\$1+0\)\>0\)\ ok=1\}\ END\ \{exit\ \!\(n==1\ \&\&\ ok\)\}\" 
+RESULTAT: OK
+
+CONTROLE: Memoire echange active
+$ bash -o pipefail -c swapon\ --noheadings\ --show=NAME\ \|\ grep\ -q\ . 
+RESULTAT: OK
+
+CONTROLE: Montage distinct pour /var/log
+$ findmnt --mountpoint /var/log 
+TARGET   SOURCE                    FSTYPE OPTIONS
+/var/log /dev/mapper/vg_sys-lv_log ext4   rw,relatime
+RESULTAT: OK
+
+CONTROLE: Locale francaise disponible
+$ bash -o pipefail -c locale\ -a\ \|\ grep\ -Eiq\ \"\^fr_FR\[.\]\(utf8\|UTF-8\)\$\" 
+RESULTAT: OK
+
+CONTROLE: Fuseau Europe/Paris
+$ bash -c test\ \"\$\(timedatectl\ show\ -p\ Timezone\ --value\)\"\ =\ Europe/Paris 
+RESULTAT: A CORRIGER (code 1)
+
+CONTROLE: Heure synchronisee
+$ bash -c test\ \"\$\(timedatectl\ show\ -p\ NTPSynchronized\ --value\)\"\ =\ yes 
+RESULTAT: OK
+
+CONTROLE: Aucune unite systemd en echec
+$ bash -c sortie=\$\(systemctl\ --failed\ --no-legend\ --plain\ --no-pager\)\ \|\|\ exit\;\ printf\ \"%s\\n\"\ \"\$sortie\"\;\ test\ -z\ \"\$sortie\" 
+
+RESULTAT: OK
+
+CONTROLE: Adresse IPv4 de laboratoire
+$ bash -o pipefail -c ip\ -o\ -4\ addr\ show\ dev\ \"\$1\"\ \|\ awk\ \"\{print\ \\\$4\}\"\ \|\ grep\ -Fx\ \"\$2\" _ ens34 10.42.0.12/24 
+RESULTAT: A CORRIGER (code 1)
+
+CONTROLE: Delegation sudo du compte courant
+$ bash -c test\ \"\$\(sudo\ -n\ id\ -u\)\"\ =\ 0 
+RESULTAT: OK
+
+CONTROLE: Mot de passe root verrouille
+$ bash -o pipefail -c sudo\ -n\ passwd\ -S\ root\ \|\ awk\ \"\{print\;\ if\ \(\\\$2\ ~\ /\^L/\)\ ok=1\}\ END\ \{exit\ \!ok\}\" 
+root L 2026-09-09 0 99999 7 -1
+RESULTAT: OK
+
+CONTROLE: Syntaxe SSH valide
+$ sudo -n /usr/sbin/sshd -t 
+RESULTAT: OK
+
+CONTROLE: Connexion directe root interdite
+$ bash -o pipefail -c sudo\ -n\ /usr/sbin/sshd\ -T\ \|\ grep\ -Ex\ \"permitrootlogin\ no\" 
+permitrootlogin no
+RESULTAT: OK
+
+CONTROLE: Service SSH actif
+$ systemctl is-active ssh 
+active
+RESULTAT: OK
+
+CONTROLE: /tmp est un montage tmpfs distinct
+$ bash -c test\ \"\$\(findmnt\ -nr\ -M\ /tmp\ -o\ FSTYPE\)\"\ =\ tmpfs 
+RESULTAT: A CORRIGER (code 1)
+
+CONTROLE: Limite /tmp de 512 Mio
+$ bash -o pipefail -c df\ --block-size=1\ --output=size\ /tmp\ \|\ tail\ -n\ 1\ \|\ awk\ \"\{exit\ \!\(\\\$1==536870912\)\}\" 
+RESULTAT: A CORRIGER (code 1)
+
+CONTROLE: Permissions /tmp
+$ bash -c test\ \"\$\(stat\ -c\ %a\ /tmp\)\"\ =\ 1777 
+RESULTAT: OK
+
+CONTROLE: UFW actif
+$ bash -o pipefail -c sudo\ -n\ ufw\ status\ \|\ grep\ -Fx\ \"Status:\ active\" 
+Status: active
+RESULTAT: OK
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp (OpenSSH)           ALLOW IN    Anywhere                  
+22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)             
+
+
+INVENTAIRE APT: verifier la liste apres full-upgrade.
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Listing...
+apparmor/noble-updates 4.0.1really4.0.1-0ubuntu0.24.04.9 amd64 [upgradable from: 4.0.1really4.0.1-0ubuntu0.24.04.8]
+cloud-init/noble-updates 26.2-0ubuntu1~24.04.2 all [upgradable from: 26.1-0ubuntu1~24.04.1]
+gir1.2-glib-2.0/noble-updates 2.80.0-6ubuntu3.10 amd64 [upgradable from: 2.80.0-6ubuntu3.9]
+libapparmor1/noble-updates 4.0.1really4.0.1-0ubuntu0.24.04.9 amd64 [upgradable from: 4.0.1really4.0.1-0ubuntu0.24.04.8]
+libglib2.0-0t64/noble-updates 2.80.0-6ubuntu3.10 amd64 [upgradable from: 2.80.0-6ubuntu3.9]
+libglib2.0-bin/noble-updates 2.80.0-6ubuntu3.10 amd64 [upgradable from: 2.80.0-6ubuntu3.9]
+libglib2.0-data/noble-updates 2.80.0-6ubuntu3.10 all [upgradable from: 2.80.0-6ubuntu3.9]
+libopeniscsiusr/noble-updates 2.1.9-3ubuntu5.5 amd64 [upgradable from: 2.1.9-3ubuntu5.4]
+open-iscsi/noble-updates 2.1.9-3ubuntu5.5 amd64 [upgradable from: 2.1.9-3ubuntu5.4]
+snapd/noble-updates 2.77.1+ubuntu24.04 amd64 [upgradable from: 2.76.3+ubuntu24.04]
+tmux/noble-updates 3.4-1ubuntu0.2 amd64 [upgradable from: 3.4-1ubuntu0.1]
+ubuntu-pro-client-l10n/noble-updates 38ubuntu0~24.04 amd64 [upgradable from: 37.2ubuntu~24.04.1]
+ubuntu-pro-client/noble-updates 38ubuntu0~24.04 amd64 [upgradable from: 37.2ubuntu~24.04.1]
+
+TEST ENTRE VM: un pare-feu peut bloquer ICMP; le resultat doit etre interprete.
+PING 10.42.0.11 (10.42.0.11) 56(84) bytes of data.
+
+--- 10.42.0.11 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2034ms
+
+Code retour ping: 1
+
+VERIFICATIONS EXTERNES: connexion par cle, refus SSH root et acces apres pare-feu dans acces-ubuntu24-lab.txt.
+Les comptes de chaque membre et les regles completes du pare-feu restent a examiner.
+Controles locaux non valides: 4
+Duree de ces controles: 4 secondes
+2026-10-25T10:10:15+00:00

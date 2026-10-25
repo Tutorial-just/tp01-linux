@@ -1,0 +1,459 @@
+EXPORT DIRECT DE LA VM
+Environnement : env-a
+Machine attendue : ubuntu24-lab
+Debut : 2026-10-25T10:09:56+00:00
+
+$ hostnamectl 
+ Static hostname: ubuntu24-lab
+       Icon name: computer-vm
+         Chassis: vm 🖴
+      Machine ID: 87dab541132945b183495699d74a4e7d
+         Boot ID: da172b9b8e714a5891e2f751918f7dfd
+  Virtualization: vmware
+Operating System: Ubuntu 24.04.5 LTS
+          Kernel: Linux 6.8.0-147-generic
+    Architecture: x86-64
+ Hardware Vendor: VMware, Inc.
+  Hardware Model: VMware Virtual Platform
+Firmware Version: 6.00
+   Firmware Date: Thu 2020-11-12
+    Firmware Age: 5y 11month 1w 5d
+[code_retour=0]
+
+$ cat /etc/os-release 
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+[code_retour=0]
+
+$ uname -r 
+6.8.0-147-generic
+[code_retour=0]
+
+$ lsblk -f 
+NAME               FSTYPE      FSVER            LABEL                           UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                                                                   
+├─sda1                                                                                                                                
+├─sda2             ext4        1.0                                              cdd73829-5a79-4dea-af36-815f97fb63dd    706,3M    21% /boot
+└─sda3             LVM2_member LVM2 001                                         3L2ZOg-5sq2-9j2U-bw9U-hH3R-AWIW-a6ssRs                
+  ├─vg_sys-lv_root ext4        1.0                                              34198a91-8f0b-4af5-b685-7830d478b6d0        6G    33% /
+  ├─vg_sys-lv_var  ext4        1.0                                              8f896da1-2340-4c0f-aafb-9f8ca85744b0      4,2G     9% /var
+  ├─vg_sys-lv_log  ext4        1.0                                              4bb3c501-c65a-4777-b511-0e38681070cb      2,2G     2% /var/log
+  ├─vg_sys-lv_home ext4        1.0                                              3a4ac5b3-c9e5-4d79-893b-56a67dda52f7      2,2G     0% /home
+  └─vg_sys-swap    swap        1                                                1d76819f-0d8a-4e4b-8d70-92201348d300                  [SWAP]
+sr0                iso9660     Joliet Extension Ubuntu-Server 24.04.5 LTS amd64 2026-09-09-09-12-22-00                                
+[code_retour=0]
+
+$ lsblk -o NAME\,SIZE\,TYPE\,FSTYPE\,MOUNTPOINTS 
+NAME                SIZE TYPE FSTYPE      MOUNTPOINTS
+sda                  25G disk             
+├─sda1                1M part             
+├─sda2                1G part ext4        /boot
+└─sda3               24G part LVM2_member 
+  ├─vg_sys-lv_root   10G lvm  ext4        /
+  ├─vg_sys-lv_var     5G lvm  ext4        /var
+  ├─vg_sys-lv_log   2,5G lvm  ext4        /var/log
+  ├─vg_sys-lv_home  2,5G lvm  ext4        /home
+  └─vg_sys-swap       2G lvm  swap        [SWAP]
+sr0                 3,8G rom  iso9660     
+[code_retour=0]
+
+$ df -hT 
+Filesystem                 Type   Size  Used Avail Use% Mounted on
+tmpfs                      tmpfs  192M  1,3M  191M   1% /run
+/dev/mapper/vg_sys-lv_root ext4   9,8G  3,3G  6,0G  36% /
+tmpfs                      tmpfs  960M     0  960M   0% /dev/shm
+tmpfs                      tmpfs  5,0M     0  5,0M   0% /run/lock
+/dev/mapper/vg_sys-lv_home ext4   2,4G  640K  2,3G   1% /home
+/dev/mapper/vg_sys-lv_var  ext4   4,9G  430M  4,2G  10% /var
+/dev/mapper/vg_sys-lv_log  ext4   2,4G   58M  2,2G   3% /var/log
+/dev/sda2                  ext4   974M  200M  707M  23% /boot
+tmpfs                      tmpfs  192M   20K  192M   1% /run/user/1000
+[code_retour=0]
+
+$ sudo pvs 
+  PV         VG     Fmt  Attr PSize   PFree 
+  /dev/sda3  vg_sys lvm2 a--  <24,00g <2,00g
+[code_retour=0]
+
+$ sudo vgs 
+  VG     #PV #LV #SN Attr   VSize   VFree 
+  vg_sys   1   5   0 wz--n- <24,00g <2,00g
+[code_retour=0]
+
+$ sudo lvs -o lv_name\,vg_name\,lv_size\,lv_path 
+  LV      VG     LSize  Path               
+  lv_home vg_sys  2,50g /dev/vg_sys/lv_home
+  lv_log  vg_sys  2,50g /dev/vg_sys/lv_log 
+  lv_root vg_sys 10,00g /dev/vg_sys/lv_root
+  lv_var  vg_sys  5,00g /dev/vg_sys/lv_var 
+  swap    vg_sys  2,00g /dev/vg_sys/swap   
+[code_retour=0]
+
+$ swapon --show 
+NAME      TYPE      SIZE USED PRIO
+/dev/dm-4 partition   2G   0B   -2
+[code_retour=0]
+
+$ findmnt --target /var/log 
+TARGET   SOURCE                    FSTYPE OPTIONS
+/var/log /dev/mapper/vg_sys-lv_log ext4   rw,relatime
+[code_retour=0]
+
+$ findmnt --target /tmp 
+TARGET SOURCE                     FSTYPE OPTIONS
+/      /dev/mapper/vg_sys-lv_root ext4   rw,relatime
+[code_retour=0]
+
+$ cat /etc/fstab 
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/vg_sys/lv_root during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-SWrDu6tE55CPfDlrmPgElJ5R30lAUrO5sMKk9RPaf6M7m6JjIkoGTyejzlQnYQOZ / ext4 defaults 0 1
+# /var was on /dev/vg_sys/lv_var during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-SWrDu6tE55CPfDlrmPgElJ5R30lAUrO57tIqTuWM9DbT2k35a7tV3dqWcv6plwmv /var ext4 defaults 0 1
+# /home was on /dev/vg_sys/lv_home during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-SWrDu6tE55CPfDlrmPgElJ5R30lAUrO5urnkfiMektl4U4bN74xIIdzJXwRnPGcw /home ext4 defaults 0 1
+/dev/disk/by-id/dm-uuid-LVM-SWrDu6tE55CPfDlrmPgElJ5R30lAUrO5PvJ0cr8b2kiJDepMi0CXV5L8R68DkrMO none swap sw 0 0
+# /var/log was on /dev/vg_sys/lv_log during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-SWrDu6tE55CPfDlrmPgElJ5R30lAUrO5oocYYu9LR3WKB2piOdZibNmt0B4D2KSB /var/log ext4 defaults 0 1
+# /boot was on /dev/sda2 during curtin installation
+/dev/disk/by-uuid/cdd73829-5a79-4dea-af36-815f97fb63dd /boot ext4 defaults 0 1
+[code_retour=0]
+
+$ localectl status 
+System Locale: LANG=fr_FR.UTF-8
+    VC Keymap: (unset)
+   X11 Layout: fr
+    X11 Model: pc105
+  X11 Variant: latin9
+[code_retour=0]
+
+$ locale -a 
+C
+C.utf8
+fr_FR.utf8
+POSIX
+[code_retour=0]
+
+$ timedatectl status 
+               Local time: dim. 2026-10-25 10:09:56 UTC
+           Universal time: dim. 2026-10-25 10:09:56 UTC
+                 RTC time: dim. 2026-10-25 10:09:57
+                Time zone: Etc/UTC (UTC, +0000)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+[code_retour=0]
+
+$ systemctl --failed --no-pager 
+  UNIT LOAD ACTIVE SUB DESCRIPTION
+
+0 loaded units listed.
+[code_retour=0]
+
+$ systemctl list-units --type=service --state=running --no-pager 
+  UNIT                        LOAD   ACTIVE SUB     DESCRIPTION
+  cron.service                loaded active running Regular background program processing daemon
+  dbus.service                loaded active running D-Bus System Message Bus
+  getty@tty1.service          loaded active running Getty on tty1
+  ModemManager.service        loaded active running Modem Manager
+  multipathd.service          loaded active running Device-Mapper Multipath Device Controller
+  open-vm-tools.service       loaded active running Service for virtual machines hosted on VMware
+  polkit.service              loaded active running Authorization Manager
+  rsyslog.service             loaded active running System Logging Service
+  ssh.service                 loaded active running OpenBSD Secure Shell server
+  systemd-hostnamed.service   loaded active running Hostname Service
+  systemd-journald.service    loaded active running Journal Service
+  systemd-localed.service     loaded active running Locale Service
+  systemd-logind.service      loaded active running User Login Management
+  systemd-networkd.service    loaded active running Network Configuration
+  systemd-resolved.service    loaded active running Network Name Resolution
+  systemd-timedated.service   loaded active running Time & Date Service
+  systemd-timesyncd.service   loaded active running Network Time Synchronization
+  systemd-udevd.service       loaded active running Rule-based Manager for Device Events and Files
+  udisks2.service             loaded active running Disk Manager
+  unattended-upgrades.service loaded active running Unattended Upgrades Shutdown
+  user@1000.service           loaded active running User Manager for UID 1000
+  vgauth.service              loaded active running Authentication service for virtual machines hosted on VMware
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+22 loaded units listed.
+[code_retour=0]
+
+$ id 
+uid=1000(vlad) gid=1000(vlad) groups=1000(vlad),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),101(lxd)
+[code_retour=0]
+
+$ getent group wheel 
+[code_retour=2]
+
+$ getent group sudo 
+sudo:x:27:vlad
+[code_retour=0]
+
+$ sudo -l 
+Matching Defaults entries for vlad on ubuntu24-lab:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User vlad may run the following commands on ubuntu24-lab:
+    (ALL : ALL) ALL
+[code_retour=0]
+
+$ sudo id 
+uid=0(root) gid=0(root) groups=0(root)
+[code_retour=0]
+
+$ sudo passwd -S root 
+root L 2026-09-09 0 99999 7 -1
+[code_retour=0]
+
+$ sudo /usr/sbin/sshd -t 
+[code_retour=0]
+
+$ sudo /usr/sbin/sshd -T 
+port 22
+addressfamily any
+listenaddress [::]:22
+listenaddress 0.0.0.0:22
+usepam yes
+logingracetime 120
+x11displayoffset 10
+maxauthtries 6
+maxsessions 10
+clientaliveinterval 0
+clientalivecountmax 3
+requiredrsasize 1024
+streamlocalbindmask 0177
+unusedconnectiontimeout none
+permitrootlogin no
+ignorerhosts yes
+ignoreuserknownhosts no
+hostbasedauthentication no
+hostbasedusesnamefrompacketonly no
+pubkeyauthentication yes
+kerberosauthentication no
+kerberosorlocalpasswd yes
+kerberosticketcleanup yes
+gssapiauthentication no
+gssapicleanupcredentials yes
+gssapikeyexchange no
+gssapistrictacceptorcheck yes
+gssapistorecredentialsonrekey no
+gssapikexalgorithms gss-group14-sha256-,gss-group16-sha512-,gss-nistp256-sha256-,gss-curve25519-sha256-,gss-group14-sha1-,gss-gex-sha1-
+passwordauthentication yes
+kbdinteractiveauthentication no
+printmotd no
+printlastlog yes
+x11forwarding yes
+x11uselocalhost yes
+permittty yes
+permituserrc yes
+strictmodes yes
+tcpkeepalive yes
+permitemptypasswords no
+compression yes
+gatewayports no
+usedns no
+allowtcpforwarding yes
+allowagentforwarding yes
+disableforwarding no
+allowstreamlocalforwarding yes
+streamlocalbindunlink no
+fingerprinthash SHA256
+exposeauthinfo no
+debianbanner yes
+pidfile /run/sshd.pid
+modulifile /etc/ssh/moduli
+xauthlocation /usr/bin/xauth
+ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+macs umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1
+banner none
+forcecommand none
+chrootdirectory none
+trustedusercakeys none
+revokedkeys none
+securitykeyprovider internal
+authorizedprincipalsfile none
+versionaddendum none
+authorizedkeyscommand none
+authorizedkeyscommanduser none
+authorizedprincipalscommand none
+authorizedprincipalscommanduser none
+hostkeyagent none
+kexalgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256
+casignaturealgorithms ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256
+hostbasedacceptedalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256
+hostkeyalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256
+pubkeyacceptedalgorithms ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-ed25519,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ssh-ed25519@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,rsa-sha2-512,rsa-sha2-256
+loglevel INFO
+syslogfacility AUTH
+authorizedkeysfile .ssh/authorized_keys .ssh/authorized_keys2
+hostkey /etc/ssh/ssh_host_rsa_key
+hostkey /etc/ssh/ssh_host_ecdsa_key
+hostkey /etc/ssh/ssh_host_ed25519_key
+acceptenv LANG
+acceptenv LC_*
+authenticationmethods any
+channeltimeout none
+subsystem sftp /usr/lib/openssh/sftp-server 
+maxstartups 10:30:100
+persourcemaxstartups none
+persourcenetblocksize 32:128
+permittunnel no
+ipqos lowdelay throughput
+rekeylimit 0 0
+permitopen any
+permitlisten any
+permituserenvironment no
+pubkeyauthoptions none
+[code_retour=0]
+
+$ ip -br a 
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+ens33            UP             192.168.198.129/24 metric 100 fe80::20c:29ff:fe53:8b7e/64 
+ens34            DOWN           
+[code_retour=0]
+
+$ ip route 
+default via 192.168.198.2 dev ens33 proto dhcp src 192.168.198.129 metric 100 
+192.168.198.0/24 dev ens33 proto kernel scope link src 192.168.198.129 metric 100 
+192.168.198.2 dev ens33 proto dhcp scope link src 192.168.198.129 metric 100 
+[code_retour=0]
+
+$ apt list --upgradable 
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+En train de lister…
+apparmor/noble-updates 4.0.1really4.0.1-0ubuntu0.24.04.9 amd64 [pouvant être mis à jour depuis : 4.0.1really4.0.1-0ubuntu0.24.04.8]
+cloud-init/noble-updates 26.2-0ubuntu1~24.04.2 all [pouvant être mis à jour depuis : 26.1-0ubuntu1~24.04.1]
+gir1.2-glib-2.0/noble-updates 2.80.0-6ubuntu3.10 amd64 [pouvant être mis à jour depuis : 2.80.0-6ubuntu3.9]
+libapparmor1/noble-updates 4.0.1really4.0.1-0ubuntu0.24.04.9 amd64 [pouvant être mis à jour depuis : 4.0.1really4.0.1-0ubuntu0.24.04.8]
+libglib2.0-0t64/noble-updates 2.80.0-6ubuntu3.10 amd64 [pouvant être mis à jour depuis : 2.80.0-6ubuntu3.9]
+libglib2.0-bin/noble-updates 2.80.0-6ubuntu3.10 amd64 [pouvant être mis à jour depuis : 2.80.0-6ubuntu3.9]
+libglib2.0-data/noble-updates 2.80.0-6ubuntu3.10 all [pouvant être mis à jour depuis : 2.80.0-6ubuntu3.9]
+libopeniscsiusr/noble-updates 2.1.9-3ubuntu5.5 amd64 [pouvant être mis à jour depuis : 2.1.9-3ubuntu5.4]
+open-iscsi/noble-updates 2.1.9-3ubuntu5.5 amd64 [pouvant être mis à jour depuis : 2.1.9-3ubuntu5.4]
+snapd/noble-updates 2.77.1+ubuntu24.04 amd64 [pouvant être mis à jour depuis : 2.76.3+ubuntu24.04]
+tmux/noble-updates 3.4-1ubuntu0.2 amd64 [pouvant être mis à jour depuis : 3.4-1ubuntu0.1]
+ubuntu-pro-client-l10n/noble-updates 38ubuntu0~24.04 amd64 [pouvant être mis à jour depuis : 37.2ubuntu~24.04.1]
+ubuntu-pro-client/noble-updates 38ubuntu0~24.04 amd64 [pouvant être mis à jour depuis : 37.2ubuntu~24.04.1]
+[code_retour=0]
+
+$ sudo tail -n 80 /var/log/apt/history.log 
+Upgrade: tzdata:amd64 (2026c-0ubuntu0.24.04.1, 2026e-0ubuntu0.24.04.1)
+End-Date: 2026-10-22  12:45:55
+
+Start-Date: 2026-10-22  12:45:57
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libpng16-16t64:amd64 (1.6.43-5ubuntu0.6, 1.6.43-5ubuntu0.7)
+End-Date: 2026-10-22  12:45:57
+
+Start-Date: 2026-10-22  12:45:59
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: liblzma5:amd64 (5.6.1+really5.4.5-1ubuntu0.3, 5.6.1+really5.4.5-1ubuntu0.4), xz-utils:amd64 (5.6.1+really5.4.5-1ubuntu0.3, 5.6.1+really5.4.5-1ubuntu0.4)
+End-Date: 2026-10-22  12:46:00
+
+Start-Date: 2026-10-22  12:46:04
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libarchive13t64:amd64 (3.7.2-2ubuntu0.8, 3.7.2-2ubuntu0.9)
+End-Date: 2026-10-22  12:46:04
+
+Start-Date: 2026-10-22  12:46:06
+Commandline: /usr/bin/unattended-upgrade
+Install: linux-modules-extra-6.8.0-147-generic:amd64 (6.8.0-147.147, automatic), linux-tools-6.8.0-147:amd64 (6.8.0-147.147, automatic), linux-image-6.8.0-147-generic:amd64 (6.8.0-147.147, automatic), linux-headers-6.8.0-147:amd64 (6.8.0-147.147, automatic), linux-tools-6.8.0-147-generic:amd64 (6.8.0-147.147, automatic), linux-headers-6.8.0-147-generic:amd64 (6.8.0-147.147, automatic), linux-modules-6.8.0-147-generic:amd64 (6.8.0-147.147, automatic)
+Upgrade: linux-tools-common:amd64 (6.8.0-146.146, 6.8.0-147.147), linux-headers-generic:amd64 (6.8.0-146.146, 6.8.0-147.147), linux-generic:amd64 (6.8.0-146.146, 6.8.0-147.147), linux-image-generic:amd64 (6.8.0-146.146, 6.8.0-147.147), linux-libc-dev:amd64 (6.8.0-146.146, 6.8.0-147.147)
+End-Date: 2026-10-22  12:46:30
+
+Start-Date: 2026-10-22  12:46:33
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: sg3-utils:amd64 (1.46-3ubuntu4, 1.46-3ubuntu4.1), libsgutils2-1.46-2:amd64 (1.46-3ubuntu4, 1.46-3ubuntu4.1), sg3-utils-udev:amd64 (1.46-3ubuntu4, 1.46-3ubuntu4.1)
+End-Date: 2026-10-22  12:46:41
+
+Start-Date: 2026-10-22  12:46:45
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libfreetype6:amd64 (2.13.2+dfsg-1ubuntu0.1, 2.13.2+dfsg-1ubuntu0.2)
+End-Date: 2026-10-22  12:46:45
+
+Start-Date: 2026-10-22  12:46:48
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: distro-info-data:amd64 (0.72-0ubuntu0.24.04.1, 2026.10.12-0ubuntu0.24.04.1)
+End-Date: 2026-10-22  12:46:48
+
+Start-Date: 2026-10-22  12:46:50
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: sudo:amd64 (1.9.15p5-3ubuntu5.24.04.3, 1.9.15p5-3ubuntu5.24.04.4)
+End-Date: 2026-10-22  12:46:52
+
+Start-Date: 2026-10-22  12:46:58
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libcurl3t64-gnutls:amd64 (8.5.0-2ubuntu10.15, 8.5.0-2ubuntu10.16), libcurl4t64:amd64 (8.5.0-2ubuntu10.15, 8.5.0-2ubuntu10.16), curl:amd64 (8.5.0-2ubuntu10.15, 8.5.0-2ubuntu10.16)
+End-Date: 2026-10-22  12:46:59
+
+Start-Date: 2026-10-22  12:47:03
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libnss3:amd64 (2:3.98-1ubuntu0.2, 2:3.98-1ubuntu0.3)
+End-Date: 2026-10-22  12:47:03
+
+Start-Date: 2026-10-22  12:47:06
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libxml2:amd64 (2.9.14+dfsg-1.3ubuntu3.9, 2.9.14+dfsg-1.3ubuntu3.10)
+End-Date: 2026-10-22  12:47:06
+
+Start-Date: 2026-10-22  12:47:09
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: python3-urllib3:amd64 (2.0.7-1ubuntu0.7, 2.0.7-1ubuntu0.8)
+End-Date: 2026-10-22  12:47:09
+
+Start-Date: 2026-10-22  12:47:12
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: ca-certificates:amd64 (20260601~24.04.1, 20260816ubuntu0.24.04.1)
+End-Date: 2026-10-22  12:47:16
+
+Start-Date: 2026-10-23  06:29:33
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: zlib1g:amd64 (1:1.3.dfsg-3.1ubuntu2.2, 1:1.3.dfsg-3.1ubuntu2.3)
+End-Date: 2026-10-23  06:29:34
+
+Start-Date: 2026-10-23  06:59:05
+Commandline: apt install open-vm-tools open-vm-tools-desktop -y
+Requested-By: vlad (1000)
+Install: fontconfig:amd64 (2.15.0-1.1ubuntu2, automatic), libvulkan1:amd64 (1.3.275.0-1build1, automatic), libxcb-present0:amd64 (1.15-1ubuntu2, automatic), libxxf86vm1:amd64 (1:1.1.4-1build4, automatic), libgdk-pixbuf2.0-bin:amd64 (2.42.10+dfsg-3ubuntu3.3, automatic), libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), libatkmm-1.6-1v5:amd64 (2.28.4-1build4, automatic), libdatrie1:amd64 (0.2.13-3build1, automatic), libthai0:amd64 (0.1.29-2build1, automatic), libxrender1:amd64 (1:0.9.10-1.1build1, automatic), libglvnd0:amd64 (1.7.0-1build1, automatic), open-vm-tools-desktop:amd64 (2:13.0.10-0ubuntu0.24.04.2), hicolor-icon-theme:amd64 (0.17-2, automatic), libx11-xcb1:amd64 (2:1.8.7-1ubuntu0.1, automatic), libxshmfence1:amd64 (1.3-1build5, automatic), libpango-1.0-0:amd64 (1.52.1+ds-1build1, automatic), xserver-xorg-core:amd64 (2:21.1.12-1ubuntu1.9, automatic), libxkbfile1:amd64 (1:1.1.0-1build4, automatic), libglibmm-2.4-1t64:amd64 (2.66.7-1build1, automatic), libwayland-cursor0:amd64 (1.22.0-2.1build1, automatic), libavahi-common-data:amd64 (0.8-13ubuntu6.2, automatic), libcolord2:amd64 (1.4.7-1build2, automatic), libxcb-dri3-0:amd64 (1.15-1ubuntu2, automatic), libcairo2:amd64 (1.18.0-3build1, automatic), libgbm1:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), libpciaccess0:amd64 (0.17-3ubuntu0.24.04.3, automatic), libxcursor1:amd64 (1:1.2.1-1build1, automatic), at-spi2-core:amd64 (2.52.0-1build1, automatic), x11-common:amd64 (1:7.7+23ubuntu3, automatic), libgtkmm-3.0-1t64:amd64 (3.24.9-1, automatic), libglx0:amd64 (1.7.0-1build1, automatic), libcairomm-1.0-1v5:amd64 (1.14.5-1build1, automatic), mesa-libgallium:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), adwaita-icon-theme:amd64 (46.0-1, automatic), libpixman-1-0:amd64 (0.42.2-1build1, automatic), libxaw7:amd64 (2:1.0.14-1build2, automatic), libllvm20:amd64 (1:20.1.2-0ubuntu1~24.04.3, automatic), librsvg2-common:amd64 (2.58.0+dfsg-1ubuntu0.1, automatic), libxcomposite1:amd64 (1:0.4.5-1build3, automatic), libxdamage1:amd64 (1:1.1.6-1build1, automatic), libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-3ubuntu3.3, automatic), libcairo-gobject2:amd64 (1.18.0-3build1, automatic), libxatracker2:amd64 (25.1.7-1ubuntu2~24.04.2, automatic), ubuntu-mono:amd64 (24.04-0ubuntu1, automatic), libxmu6:amd64 (2:1.1.3-3build2, automatic), humanity-icon-theme:amd64 (0.6.16, automatic), libgraphite2-3:amd64 (1.3.14-2ubuntu0.24.04.1, automatic), libdconf1:amd64 (0.40.0-4ubuntu0.1, automatic), libcups2t64:amd64 (2.4.7-1.2ubuntu7.14, automatic), libxcvt0:amd64 (0.1.2-1build1, automatic), libatspi2.0-0t64:amd64 (2.52.0-1build1, automatic), libgl1-mesa-dri:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), libxrandr2:amd64 (2:1.5.2-2build1, automatic), libxfont2:amd64 (1:2.0.6-1+deb13u1build0.24.04.2, automatic), libfontenc1:amd64 (1:1.1.8-1build1, automatic), libpangomm-1.4-1v5:amd64 (2.46.4-1build3, automatic), libxt6t64:amd64 (1:1.2.1-1.2build1, automatic), libpangocairo-1.0-0:amd64 (1.52.1+ds-1build1, automatic), libxtst6:amd64 (2:1.2.3-1.1ubuntu0.1, automatic), libxcb-render0:amd64 (1.15-1ubuntu2, automatic), xserver-common:amd64 (2:21.1.12-1ubuntu1.9, automatic), gsettings-desktop-schemas:amd64 (46.1-0ubuntu1, automatic), xserver-xorg-video-vmware:amd64 (1:13.4.0-1build1, automatic), xcvt:amd64 (0.1.2-1build1, automatic), libice6:amd64 (2:1.0.10-1build3, automatic), mesa-vulkan-drivers:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), libpangoft2-1.0-0:amd64 (1.52.1+ds-1build1, automatic), xfonts-encodings:amd64 (1:1.0.5-0ubuntu2, automatic), libatk1.0-0t64:amd64 (2.52.0-1build1, automatic), x11-xkb-utils:amd64 (7.7+8build2, automatic), libthai-data:amd64 (0.1.29-2build1, automatic), libavahi-common3:amd64 (0.8-13ubuntu6.2, automatic), librsvg2-2:amd64 (2.58.0+dfsg-1ubuntu0.1, automatic), libxcb-glx0:amd64 (1.15-1ubuntu2, automatic), libxinerama1:amd64 (2:1.1.4-3build1, automatic), libwayland-egl1:amd64 (1.22.0-2.1build1, automatic), xfonts-utils:amd64 (1:7.7+6build3, automatic), dconf-gsettings-backend:amd64 (0.40.0-4ubuntu0.1, automatic), libxcb-randr0:amd64 (1.15-1ubuntu2, automatic), gtk-update-icon-cache:amd64 (3.24.41-4ubuntu1.3, automatic), libgtk-3-common:amd64 (3.24.41-4ubuntu1.3, automatic), libharfbuzz0b:amd64 (8.3.0-2build2, automatic), libgtk-3-bin:amd64 (3.24.41-4ubuntu1.3, automatic), xfonts-base:amd64 (1:1.0.5+nmu1, automatic), libegl-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), session-migration:amd64 (0.3.9build1, automatic), libxcb-shm0:amd64 (1.15-1ubuntu2, automatic), libgtk-3-0t64:amd64 (3.24.41-4ubuntu1.3, automatic), dconf-service:amd64 (0.40.0-4ubuntu0.1, automatic), libgl1:amd64 (1.7.0-1build1, automatic), libegl1:amd64 (1.7.0-1build1, automatic), libwayland-client0:amd64 (1.22.0-2.1build1, automatic), liblcms2-2:amd64 (2.14-2ubuntu0.1, automatic), libatk-bridge2.0-0t64:amd64 (2.52.0-1build1, automatic), libsigc++-2.0-0v5:amd64 (2.12.1-2, automatic), libepoxy0:amd64 (1.5.10-1build1, automatic), libxcb-sync1:amd64 (1.15-1ubuntu2, automatic), at-spi2-common:amd64 (2.52.0-1build1, automatic), libavahi-client3:amd64 (0.8-13ubuntu6.2, automatic), libsm6:amd64 (2:1.2.3-1build3, automatic), libdrm-intel1:amd64 (2.4.125-1ubuntu0.1~24.04.2, automatic), libxfixes3:amd64 (1:6.0.0-2build1, automatic), libxi6:amd64 (2:1.8.1-1build1, automatic), libxcb-xfixes0:amd64 (1.15-1ubuntu2, automatic), libgdk-pixbuf2.0-common:amd64 (2.42.10+dfsg-3ubuntu3.3, automatic)
+Upgrade: open-vm-tools:amd64 (2:13.0.10-0ubuntu0.24.04.1, 2:13.0.10-0ubuntu0.24.04.2)
+End-Date: 2026-10-23  06:59:43
+[code_retour=0]
+
+$ sudo ufw status verbose 
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp (OpenSSH)           ALLOW IN    Anywhere                  
+22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)             
+
+[code_retour=0]
+
+Fin : 2026-10-25T10:09:57+00:00

@@ -1,0 +1,624 @@
+TEXTE EXTRAIT DU DOCUMENT FOURNI - ENVIRONNEMENT B
+Machine : ubuntu24-lab
+Source : TP 1 Socle installation et premier durcissement.pdf
+Le contenu ci-dessous est repris du PDF, avec ses retours a la ligne. Ce n'est pas une nouvelle execution.
+
+
+PAGE 16 DU PDF SOURCE
+ 
+ 
+ 
+2026-10-22T19:55:32+02:00 
+Static hostname: ubuntu24-lab 
+      Icon name: computer-vm 
+        Chassis: vm 🖴 
+     Machine ID: 2ea9e21e234544c09c6db3217f1b1fe9 
+        Boot ID: 0e728b4b2f4b4ddbb4b4dc5cdd694e4e 
+ Virtualization: vmware 
+Operating System: Ubuntu 24.04.5 LTS 
+         Kernel: Linux 6.8.0-147-generic 
+   Architecture: x86-64 
+Hardware Vendor: VMware, Inc. 
+ Hardware Model: VMware Virtual Platform 
+Firmware Version: 6.00 
+  Firmware Date: Thu 2020-11-12 
+   Firmware Age: 5y 11month 1w 2d 
+PRETTY_NAME="Ubuntu 24.04.5 LTS" 
+NAME="Ubuntu" 
+VERSION_ID="24.04" 
+VERSION="24.04.5 LTS (Noble Numbat)" 
+VERSION_CODENAME=noble 
+ID=ubuntu 
+ID_LIKE=debian 
+HOME_URL="https://www.ubuntu.com/" 
+SUPPORT_URL="https://help.ubuntu.com/" 
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/" 
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-
+policies/privacy-policy" 
+UBUNTU_CODENAME=noble 
+LOGO=ubuntu-logo 
+NAME                FSTYPE      FSVER    LABEL UUID                       
+FSAVAIL FSUSE% MOUNTPOINTS 
+sda                                                                       
+├─sda1                                                                    
+├─sda2              ext4        1.0            315d6a11-df62-4a55-8b71-
+a6c72f4b2793    707.4M    20% /boot 
+└─sda3              LVM2_member LVM2 001       4KVRn0-zUcq-N3wq-n5xK-
+Flu6-OWI1-1nupm3                 
+ ├─vg_sys-lv--root ext4        1.0            d750974a-289e-4484-84f9-
+8bcbe1804e68      8.3G    24% / 
+ ├─vg_sys-lv--var  ext4        1.0            ff3b4037-0887-4c94-94f3-
+ad0e3611e4e9      3.3G     9% /var 
+ ├─vg_sys-lv--home ext4        1.0            17b6c281-ee47-4890-a776-
+5e23d3ae0e53    906.1M     0% /home 
+ ├─vg_sys-lv--swap swap        1              c5f6dc38-3e98-4211-99fa-
+4eb792cc1f11                  [SWAP] 
+ └─vg_sys-lv--loh  ext4        1.0            ccc35db4-97ad-4c00-bfc7-
+9b121ee0009e      1.7G     5% /var/log 
+sr0                                                                       
+Filesystem                  Type   Size  Used Avail Use% Mounted on 
+tmpfs                       tmpfs  192M 1008K  192M   1% /run 
+/dev/mapper/vg_sys-lv--root ext4    12G  2.9G  8.3G  26% / 
+tmpfs                       tmpfs  960M     0  960M   0% /dev/shm 
+tmpfs                       tmpfs  5.0M     0  5.0M   0% /run/lock 
+tmpfs                       tmpfs  512M     0  512M   0% /tmp 
+/dev/mapper/vg_sys-lv--home ext4   974M  160K  907M   1% /home 
+/dev/mapper/vg_sys-lv--var  ext4   3.9G  370M  3.3G  10% /var 
+/dev/mapper/vg_sys-lv--loh  ext4   2.0G   91M  1.7G   5% /var/log 
+/dev/sda2                   ext4   974M  199M  708M  22% /boot 
+
+
+PAGE 17 DU PDF SOURCE
+ 
+ 
+ 
+tmpfs                       tmpfs  192M   20K  192M   1% /run/user/1000 
+tmpfs                       tmpfs  192M   20K  192M   1% /run/user/1001 
+NAME      TYPE      SIZE USED PRIO 
+/dev/dm-3 partition   2G   0B   -2 
+ VG     #PV #LV #SN Attr   VSize   VFree  
+ vg_sys   1   5   0 wz--n- <24.00g <3.00g 
+System Locale: LANG=C.UTF-8 
+   VC Keymap: (unset) 
+  X11 Layout: fr 
+   X11 Model: pc105 
+ X11 Variant: azerty 
+              Local time: Thu 2026-10-22 19:55:34 CEST 
+          Universal time: Thu 2026-10-22 17:55:34 UTC 
+                RTC time: Thu 2026-10-22 17:55:34 
+               Time zone: Europe/Paris (CEST, +0200) 
+System clock synchronized: yes 
+             NTP service: active 
+         RTC in local TZ: no 
+ UNIT LOAD ACTIVE SUB DESCRIPTION 
+0 loaded units listed. 
+Commandline: apt install -y build-essential strace valgrind 
+Requested-By: alice (1001) 
+Install: libgcc-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1, automatic), 
+libstdc++-13-dev:amd64 (13.3.0-6ubuntu2~24.04.1, automatic), 
+libalgorithm-merge-perl:amd64 (0.08-5, automatic), libgomp1:amd64 
+(14.2.0-4ubuntu2~24.04.1, automatic), g++-13:amd64 (13.3.0-
+6ubuntu2~24.04.1, automatic), gcc-13:amd64 (13.3.0-6ubuntu2~24.04.1, 
+automatic), build-essential:amd64 (12.10ubuntu1), libctf-nobfd0:amd64 
+(2.42-4ubuntu2.10, automatic), gcc-x86-64-linux-gnu:amd64 (4:13.2.0-
+7ubuntu1, automatic), libtsan2:amd64 (14.2.0-4ubuntu2~24.04.1, 
+automatic), cpp:amd64 (4:13.2.0-7ubuntu1, automatic), g++:amd64 
+(4:13.2.0-7ubuntu1, automatic), libdebuginfod1t64:amd64 (0.190-
+1.1ubuntu0.1, automatic), gcc:amd64 (4:13.2.0-7ubuntu1, automatic), 
+gdb:amd64 (15.1-1ubuntu1~24.04.1, automatic), libdebuginfod-common:amd64 
+(0.190-1.1ubuntu0.1, automatic), libhwasan0:amd64 (14.2.0-
+4ubuntu2~24.04.1, automatic), libalgorithm-diff-perl:amd64 (1.201-1, 
+automatic), libbinutils:amd64 (2.42-4ubuntu2.10, automatic), 
+libfakeroot:amd64 (1.33-1, automatic), cpp-x86-64-linux-gnu:amd64 
+(4:13.2.0-7ubuntu1, automatic), patch:amd64 (2.7.6-7build3, automatic), 
+binutils-x86-64-linux-gnu:amd64 (2.42-4ubuntu2.10, automatic), 
+bzip2:amd64 (1.0.8-5.1ubuntu0.1, automatic), g++-x86-64-linux-gnu:amd64 
+(4:13.2.0-7ubuntu1, automatic), libcc1-0:amd64 (14.2.0-4ubuntu2~24.04.1, 
+automatic), cpp-13-x86-64-linux-gnu:amd64 (13.3.0-6ubuntu2~24.04.1, 
+automatic), libmpc3:amd64 (1.3.1-1build1.1, automatic), strace:amd64 
+(6.8-0ubuntu2), libfile-fcntllock-perl:amd64 (0.22-4ubuntu5, automatic), 
+dpkg-dev:amd64 (1.22.6ubuntu6.6, automatic), libasan8:amd64 (14.2.0-
+4ubuntu2~24.04.1, automatic), make:amd64 (4.3-4.1build2, automatic), 
+libctf0:amd64 (2.42-4ubuntu2.10, automatic), lto-disabled-list:amd64 (47, 
+automatic), libipt2:amd64 (2.0.6-1build1, automatic), cpp-13:amd64 
+(13.3.0-6ubuntu2~24.04.1, automatic), binutils-common:amd64 (2.42-
+4ubuntu2.10, automatic), libitm1:amd64 (14.2.0-4ubuntu2~24.04.1, 
+automatic), libsource-highlight-common:amd64 (3.1.9-4.3build1, 
+automatic), libdpkg-perl:amd64 (1.22.6ubuntu6.6, automatic), 
+
+
+PAGE 18 DU PDF SOURCE
+ 
+ 
+ 
+4ubuntu2~24.04.1, automatic), libsource-highlight4t64:amd64 (3.1.9-
+4.3build1, automatic), libubsan1:amd64 (14.2.0-4ubuntu2~24.04.1, 
+automatic), liblsan0:amd64 (14.2.0-4ubuntu2~24.04.1, automatic), 
+libalgorithm-diff-xs-perl:amd64 (0.04-8build3, automatic), gcc-13-x86-64-
+linux-gnu:amd64 (13.3.0-6ubuntu2~24.04.1, automatic), valgrind:amd64 
+(1:3.22.0-0ubuntu3), gcc-13-base:amd64 (13.3.0-6ubuntu2~24.04.1, 
+automatic), binutils:amd64 (2.42-4ubuntu2.10, automatic), fakeroot:amd64 
+(1.33-1, automatic), libatomic1:amd64 (14.2.0-4ubuntu2~24.04.1, 
+automatic), libbabeltrace1:amd64 (1.5.11-3build3, automatic) 
+End-Date: 2026-10-14  18:08:28 
+Start-Date: 2026-10-15  11:40:20 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: udev:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), systemd-
+timesyncd:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), libpam-
+systemd:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), libsystemd0:amd64 
+(255.4-1ubuntu8.17, 255.4-1ubuntu8.18), libnss-systemd:amd64 (255.4-
+1ubuntu8.17, 255.4-1ubuntu8.18), systemd:amd64 (255.4-1ubuntu8.17, 255.4-
+1ubuntu8.18), libudev1:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), 
+systemd-dev:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), systemd-
+resolved:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), libsystemd-
+shared:amd64 (255.4-1ubuntu8.17, 255.4-1ubuntu8.18), systemd-sysv:amd64 
+(255.4-1ubuntu8.17, 255.4-1ubuntu8.18) 
+End-Date: 2026-10-15  11:40:48 
+Start-Date: 2026-10-15  11:40:51 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: libcurl3t64-gnutls:amd64 (8.5.0-2ubuntu10.15, 8.5.0-
+2ubuntu10.16), libcurl4t64:amd64 (8.5.0-2ubuntu10.15, 8.5.0-
+2ubuntu10.16), curl:amd64 (8.5.0-2ubuntu10.15, 8.5.0-2ubuntu10.16) 
+End-Date: 2026-10-15  11:40:52 
+Start-Date: 2026-10-15  11:40:54 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: openssh-client:amd64 (1:9.6p1-3ubuntu13.19, 1:9.6p1-
+3ubuntu13.20), openssh-server:amd64 (1:9.6p1-3ubuntu13.19, 1:9.6p1-
+3ubuntu13.20), openssh-sftp-server:amd64 (1:9.6p1-3ubuntu13.19, 1:9.6p1-
+3ubuntu13.20) 
+End-Date: 2026-10-15  11:40:57 
+Start-Date: 2026-10-15  20:13:54 
+Commandline: apt install open-vm-tools open-vm-tools-desktop 
+Requested-By: joy (1000) 
+Install: fontconfig:amd64 (2.15.0-1.1ubuntu2, automatic), 
+libvulkan1:amd64 (1.3.275.0-1build1, automatic), libxcb-present0:amd64 
+(1.15-1ubuntu2, automatic), libxxf86vm1:amd64 (1:1.1.4-1build4, 
+automatic), libgdk-pixbuf2.0-bin:amd64 (2.42.10+dfsg-3ubuntu3.3, 
+automatic), libglx-mesa0:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), 
+libatkmm-1.6-1v5:amd64 (2.28.4-1build4, automatic), libdatrie1:amd64 
+(0.2.13-3build1, automatic), libthai0:amd64 (0.1.29-2build1, automatic), 
+libxrender1:amd64 (1:0.9.10-1.1build1, automatic), libglvnd0:amd64 
+(1.7.0-1build1, automatic), open-vm-tools-desktop:amd64 (2:13.0.10-
+0ubuntu0.24.04.2), libsensors-config:amd64 (1:3.6.0-9build1, automatic), 
+libtirpc3t64:amd64 (1.3.4+ds-1.1build1, automatic), libxmlsec1t64:amd64 
+(1.2.39-5build2, automatic), hicolor-icon-theme:amd64 (0.17-2, 
+automatic), libtirpc-common:amd64 (1.3.4+ds-1.1build1, automatic), 
+
+
+PAGE 19 DU PDF SOURCE
+ 
+ 
+ 
+automatic), zerofree:amd64 (1.1.1-1build5, automatic), xserver-xorg-
+core:amd64 (2:21.1.12-1ubuntu1.8, automatic), libxkbfile1:amd64 (1:1.1.0-
+1build4, automatic), libglibmm-2.4-1t64:amd64 (2.66.7-1build1, 
+automatic), libwayland-cursor0:amd64 (1.22.0-2.1build1, automatic), 
+libavahi-common-data:amd64 (0.8-13ubuntu6.2, automatic), libcolord2:amd64 
+(1.4.7-1build2, automatic), libxcb-dri3-0:amd64 (1.15-1ubuntu2, 
+automatic), libcairo2:amd64 (1.18.0-3build1, automatic), libgbm1:amd64 
+(25.2.8-0ubuntu0.24.04.4, automatic), libpciaccess0:amd64 (0.17-
+3ubuntu0.24.04.3, automatic), libxcursor1:amd64 (1:1.2.1-1build1, 
+automatic), at-spi2-core:amd64 (2.52.0-1build1, automatic), x11-
+common:amd64 (1:7.7+23ubuntu3, automatic), libgtkmm-3.0-1t64:amd64 
+(3.24.9-1, automatic), libglx0:amd64 (1.7.0-1build1, automatic), 
+libcairomm-1.0-1v5:amd64 (1.14.5-1build1, automatic), libfribidi0:amd64 
+(1.0.13-3build1, automatic), mesa-libgallium:amd64 (25.2.8-
+0ubuntu0.24.04.4, automatic), adwaita-icon-theme:amd64 (46.0-1, 
+automatic), libpixman-1-0:amd64 (0.42.2-1build1, automatic), 
+libxaw7:amd64 (2:1.0.14-1build2, automatic), libllvm20:amd64 (1:20.1.2-
+0ubuntu1~24.04.3, automatic), librsvg2-common:amd64 (2.58.0+dfsg-
+1ubuntu0.1, automatic), libxcomposite1:amd64 (1:0.4.5-1build3, 
+automatic), libmspack0t64:amd64 (0.11-1.1build1, automatic), 
+libxdamage1:amd64 (1:1.1.6-1build1, automatic), libgdk-pixbuf-2.0-0:amd64 
+(2.42.10+dfsg-3ubuntu3.3, automatic), libcairo-gobject2:amd64 (1.18.0-
+3build1, automatic), libxatracker2:amd64 (25.1.7-1ubuntu2~24.04.2, 
+automatic), ubuntu-mono:amd64 (24.04-0ubuntu1, automatic), libxmu6:amd64 
+(2:1.1.3-3build2, automatic), humanity-icon-theme:amd64 (0.6.16, 
+automatic), libgraphite2-3:amd64 (1.3.14-2ubuntu0.24.04.1, automatic), 
+libdconf1:amd64 (0.40.0-4ubuntu0.1, automatic), libcups2t64:amd64 (2.4.7-
+1.2ubuntu7.14, automatic), libxcvt0:amd64 (0.1.2-1build1, automatic), 
+libatspi2.0-0t64:amd64 (2.52.0-1build1, automatic), libgl1-mesa-dri:amd64 
+(25.2.8-0ubuntu0.24.04.4, automatic), libxrandr2:amd64 (2:1.5.2-2build1, 
+automatic), libxfont2:amd64 (1:2.0.6-1+deb13u1build0.24.04.2, automatic), 
+libfontenc1:amd64 (1:1.1.8-1build1, automatic), libpangomm-1.4-1v5:amd64 
+(2.46.4-1build3, automatic), libxt6t64:amd64 (1:1.2.1-1.2build1, 
+automatic), libpangocairo-1.0-0:amd64 (1.52.1+ds-1build1, automatic), 
+libxtst6:amd64 (2:1.2.3-1.1build1, automatic), libxcb-render0:amd64 
+(1.15-1ubuntu2, automatic), xserver-common:amd64 (2:21.1.12-1ubuntu1.8, 
+automatic), gsettings-desktop-schemas:amd64 (46.1-0ubuntu1, automatic), 
+open-vm-tools:amd64 (2:13.0.10-0ubuntu0.24.04.2), xserver-xorg-video-
+vmware:amd64 (1:13.4.0-1build1, automatic), xcvt:amd64 (0.1.2-1build1, 
+automatic), libice6:amd64 (2:1.0.10-1build3, automatic), mesa-vulkan-
+drivers:amd64 (25.2.8-0ubuntu0.24.04.4, automatic), libpangoft2-1.0-
+0:amd64 (1.52.1+ds-1build1, automatic), xfonts-encodings:amd64 (1:1.0.5-
+0ubuntu2, automatic), libxmlsec1t64-openssl:amd64 (1.2.39-5build2, 
+automatic), libxslt1.1:amd64 (1.1.39-0exp1ubuntu0.24.04.3, automatic), 
+libatk1.0-0t64:amd64 (2.52.0-1build1, automatic), x11-xkb-utils:amd64 
+(7.7+8build2, automatic), libthai-data:amd64 (0.1.29-2build1, automatic), 
+libavahi-common3:amd64 (0.8-13ubuntu6.2, automatic), librsvg2-2:amd64 
+(2.58.0+dfsg-1ubuntu0.1, automatic), libxcb-glx0:amd64 (1.15-1ubuntu2, 
+automatic), libxinerama1:amd64 (2:1.1.4-3build1, automatic), libwayland-
+egl1:amd64 (1.22.0-2.1build1, automatic), xfonts-utils:amd64 
+
+
+PAGE 20 DU PDF SOURCE
+ 
+ 
+ 
+0ubuntu0.24.04.4, automatic), session-migration:amd64 (0.3.9build1, 
+automatic), libxcb-shm0:amd64 (1.15-1ubuntu2, automatic), libgtk-3-
+0t64:amd64 (3.24.41-4ubuntu1.3, automatic), dconf-service:amd64 (0.40.0-
+4ubuntu0.1, automatic), libgl1:amd64 (1.7.0-1build1, automatic), 
+libegl1:amd64 (1.7.0-1build1, automatic), libwayland-client0:amd64 
+(1.22.0-2.1build1, automatic), liblcms2-2:amd64 (2.14-2ubuntu0.1, 
+automatic), libatk-bridge2.0-0t64:amd64 (2.52.0-1build1, automatic), 
+libsigc++-2.0-0v5:amd64 (2.12.1-2, automatic), libepoxy0:amd64 (1.5.10-
+1build1, automatic), libxcb-sync1:amd64 (1.15-1ubuntu2, automatic), at-
+spi2-common:amd64 (2.52.0-1build1, automatic), libavahi-client3:amd64 
+(0.8-13ubuntu6.2, automatic), libsm6:amd64 (2:1.2.3-1build3, automatic), 
+libdrm-intel1:amd64 (2.4.125-1ubuntu0.1~24.04.2, automatic), 
+libxfixes3:amd64 (1:6.0.0-2build1, automatic), libxi6:amd64 (2:1.8.1-
+1build1, automatic), libxcb-xfixes0:amd64 (1.15-1ubuntu2, automatic), 
+libgdk-pixbuf2.0-common:amd64 (2.42.10+dfsg-3ubuntu3.3, automatic) 
+End-Date: 2026-10-15  20:14:22 
+Start-Date: 2026-10-20  07:49:02 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: python3-jwt:amd64 (2.7.0-1ubuntu0.3, 2.7.0-1ubuntu0.4) 
+End-Date: 2026-10-20  07:49:03 
+Start-Date: 2026-10-20  07:49:07 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: tzdata:amd64 (2026c-0ubuntu0.24.04.1, 2026e-0ubuntu0.24.04.1) 
+End-Date: 2026-10-20  07:49:08 
+Start-Date: 2026-10-20  07:49:11 
+Commandline: /usr/bin/unattended-upgrade 
+Upgrade: libxtst6:amd64 (2:1.2.3-1.1build1, 2:1.2.3-1.1ubuntu0.1) 
+End-Date: 2026-10-20  07:49:12 
+uid=1000(joy) gid=1000(joy) 
+groups=1000(joy),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),101(lxd) 
+Matching Defaults entries for joy on ubuntu24-lab: 
+   env_reset, mail_badpass, 
+secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:
+/bin\:/snap/bin, use_pty 
+User joy may run the following commands on ubuntu24-lab: 
+   (ALL : ALL) ALL 
+root L 2026-09-09 0 99999 7 -1 
+permitrootlogin no 
+passwordauthentication yes 
+lo               UNKNOWN        127.0.0.1/8 ::1/128  
+ens33            UP             192.168.43.128/24 metric 100 
+fe80::20c:29ff:fe51:3c24/64  
+ens37            UP             10.42.0.12/24 fe80::20c:29ff:fe51:3c2e/64 
+Status: active 
+Logging: on (low) 
+Default: deny (incoming), allow (outgoing), disabled (routed) 
+New profiles: skip 
+To                         Action      From 
+--                         ------      ---- 
+22/tcp (OpenSSH)           ALLOW IN    Anywhere                   
+22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)              
+TARGET SOURCE FSTYPE OPTIONS 
+/tmp   tmpfs  tmpfs  rw,nosuid,nodev,relatime,size=524288k,inode64 
+2026-10-22T19:55:34+02:00
+
+
+CAPTURES COMPLEMENTAIRES - LECTURES AUTOMATIQUES
+Ces lectures ne remplacent pas les captures originales. Leurs dates sont celles visibles dans les images ; aucune nouvelle date de collecte n'est attribuee.
+
+SOURCE env-b-env-b-p05-02.txt
+jJoy@ubuntu24-lab:"$ hostnamect1
+ubuntue4- lab
+computer -vm
+vm +
+2eade2 1e234544c09cbdb3217f ibifed
+be728b4ber 4b4ddbb4b4dcScdd694ede
+yiware
+Ubuntu 24.64.5 LTS
+Linux 6.8.0-147?-generic
+x86-64
+VMware, Inc.
+VMware Virtual Platform
+6.90
+Thu 2020-11-12
+Su dimonth im id
+
+SOURCE env-b-env-b-p05-03.txt
+joy@ubuntu24-lab:"$ cat /etc/os-release
+PRETTY_NAME="Ubuntu 24.64.5 LTS"
+
+NAME=""Ubuntu"
+
+VERSION_ID="'24.04"
+
+VERSION="'24.064.5 LTS (Noble Numbat)"
+
+VERS ION_CODENAME=nob le
+
+ID=ubuntu
+
+ID_LIKE=debian
+
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs. launchpad. net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+
+LOGO=ubuntu- logo
+
+SOURCE env-b-env-b-p05-04.txt
+Oe teed, — ha
+jJoy@ubuntu24-lab:"$ uname -r
+6.8.0-147?-generic
+
+SOURCE env-b-env-b-p05-05.txt
+red ta to at ace ED — bd
+
+jJoy@ubuntu24-lab:~$ systemctl --failed
+UNIT LOAD ACTIVE SUB DESCRIPTION
+
+@ loaded units listed.
+
+SOURCE env-b-env-b-p06-01.txt
+joy@ubuntu24-lab:~$ systemctl list-units --type=service --state=running | head -30
+UNIT LOAD ACTIVE SUB DESCRIPTION
+dbus.service loaded active running D-Bus System Message Bus
+getty@ttyl.service loaded active running Getty on tty1
+mult ipathd.service loaded active running Device-Mapper Multipath Device Controller
+open-vm-tools.service loaded active running Service for virtual machines hosted on VMware
+ssh.service loaded active running OpenBSD Secure Shell server
+systemd- journald.service loaded active running Journal Service
+systemd-logind.service loaded active running User Login Management
+systemd-networkd.service loaded active running Network Configuration
+systemd-resolved.service loaded active running Network Name Resolution
+systemd-timesyncd. service loaded active running Network Time Synchronization
+systemd-udevd.service loaded active running Rule-based Manager for Device Events and Files
+unattended-upgrades.service loaded active running Unattended Upgrades Shutdown
+user@1600.service loaded active running User Manager for UID 1906
+vgauth. service loaded active running Authentication service for virtual machines hosted on VMware
+Legend: LOAD - Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB > The low-level unit activation state, values depend on unit type.
+14 loaded units listed.
+
+SOURCE env-b-env-b-p06-02.txt
+joy@ubuntu24-lab:~$ localectl status
+LANG=C ..UTF-8
+(unset)
+fr
+pceies
+azerty
+joy@ubuntu24-lab:~$ locale -a | grep -i fr_FR
+joy@ubuntu24-lab:~$ timedatectl status
+Wed 2026-10-21 23:36:19 CEST
+Wed 2026-10-21 21:36:19 UTC
+Wed 2026-10-21 21:36:19
+Europe/Paris (CEST, +0200)
+yes
+active
+no
+joy@ubuntu24-lab:~$ timedatectl set-timezone Europe/Paris
+
+SOURCE env-b-env-b-p07-02.txt
+joy@ubuntu24-lab:~$ sudo apt update
+
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+
+Hit:2 http://archive.ubuntu.com/ubuntu noble-updates InRelease
+
+Hit:3 http: //archive.ubuntu.com/ubuntu noble-backports InRelease
+
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+
+Reading package lists... Done
+
+Building dependency tree... Done
+
+Reading state information... Done
+
+14 packages can be upgraded. Run ‘apt list --upgradable' to see them.
+
+joy@ubuntu24-lab:~$ apt list --upgradable
+
+Listing... Done
+
+apparmor/noble-updates 4.@.1really4.@.1-@ubuntu@.24.04.9 amd64 [upgradable from: 4.0.1really4.@.1-Gubuntu@.24.04.7]
+ca-certificates/noble-updates,noble-security 20266816ubuntu@.24.64.1 all [upgradable from: 26260601°24.64. 1]
+cloud-init/noble-updates 26.2-@ubuntu1%24.04.1 all [upgradable from: 26.1-@ubuntu1%24.04. 1]
+distro-info-data/noble-updates,noble-security 2026.10.12-6ubuntu@.24.04.1 all [upgradable from: @.72-@ubuntud.24.64. 1]
+giri.2-glib-2.6/noble-updates 2.80.@-6ubuntu3.16 amd64 [upgradable from: 2.86.6-6ubuntu3.9]
+
+libapparmori/noble-updates 4.@.1really4.@.1-Qubuntu@.24.04.9 amd64 [upgradable from: 4.@.1really4.@.1-Gubuntu@.24.04.7]
+libglib2.9-9t64/noble-updates 2.80@.@-6ubuntu3.16 amd64 [upgradable from: 2.86.6-6ubuntu3.9]
+libglib2.9-bin/noble-updates 2.80.0-6ubuntu3.10 amd64 [upgradable from: 2.80.0-6ubuntu3.9]
+libglib2.0-data/noble-updates 2.8@.@-6ubuntu3.1@ all [upgradable from: 2.86.@-6ubuntu3.9]
+liblzmaS/noble-updates,noble-security 5.6.1+really5.4.5-1ubuntue.4 amd64 [upgradable from: 5.6.1+really5.4.5-1ubuntud.3]
+snapd/noble-updates 2.77.1+ubuntu24.04 amd64 [upgradable from: 2.76.3+ubuntu24.94]
+
+xserver-common/noble-updates 2:21.1.12-1ubuntul.9 all [upgradable from: 2:21.1.12-1ubuntu1.8]
+xserver-xorg-core/noble-updates 2:21.1.12-1ubuntul.9 amd64 [upgradable from: 2:21.1.12-41ubuntu1.8]
+xz-Uutils/noble-updates,noble-security 5.6.1+really5.4.5-1ubuntue.4 amd64 [upgradable from: 5.6.1+really5.4.5-1ubuntud.3]
+
+SOURCE env-b-env-b-p07-03.txt
+joy@ubuntu24-lab:“$ tail -26 /var/log/apt/history. log_
+
+SOURCE env-b-env-b-p07-04.txt
+4 (@.17-2, automatic), libtirpc-common:amd64 (1.3.4+ds-1.1build1, automatic), libxii-xchi:amd64 (2:1.8.7?-1ubuntu@.1, automatic), libxshmfencet:amd64 (1.3-1build
+
+5, automatic), libpango-1.0-@:amd64 (1.52.1+ds-1build1, automatic), zerofree:amd64 (1.1.1-1buildS, automatic), xserver-xorg-core:amd64 (2:21.1.12-1ubuntu1.8, au
+
+tomatic), libxkbfilet:amd64 (1:1.1.0-1build4, automatic), libglibmm-2.4-1t64:amd64 (2.66.7-1build1, automatic), libwayland-cursor@:amd64 (1.22.0-2.1buildi, auto
+
+matic), libayahi-common-data:amd64 (@.8-13ubuntu6.2, automatic), libcolord2:amd64 (1.4.7-1build2, automatic), libxcb-dri3-@:amd64 (1.15-1ubuntu2, automatic), li
+
+beairo2:amd64 (1.18.0-3build1, automatic), libgbmi:amd64 (25.2.8-@ubuntu@.24.64.4, automatic), libpciaccess@:amd64 (@.17-Subuntu@.24.04.3, automatic), lLibxcurso
+
+ri:amd64 (1:1.2.1-1build1, automatic), at-spi2-core:amd64 (2.52.6-1build1, automatic), x11-common:amd6é4 (1:7.7+23ubuntu3, automatic), libgtkmm-3.0-1t64:amd64 (3
+-24.9-1, automatic), libglx@:amd64 (1.7.@-1build1, automatic), libcairomm-1.0-1vS:amd64 (1.14.5-1build1, automatic), libfribidi@:amd64 (1.0.13-3build1, automati
+
+Cc), mesa-libgallium:amd64 (25.2.8-@ubuntu@.24.64.4, automatic), adwaita-icon-theme:amd64 (46.6-1, automatic), libpixman-1-@:amd64 (@.42.2-1build1, automatic), 1
+
+ibxaw?:amd64 (2:1.6.14-1build2, automatic), libllvm2@:amd64 (1:20.1.2-6ubuntu1%24.04.3, automatic), librsvg2-common:amd64 (2.58.@+dfsg-1ubuntud@.1, automatic), 1
+
+ibxcompositel:amd64 (1:6.4.5-1build3, automatic), libmspack@t64:amd64 (6.11-1.1build1, automatic), libxdamaget:amd64 (1:1.1.6-1build1, automatic), libgdk-pixbuf
+
+-2.0-@:amd64 (2.42.10+dfsg-3ubuntu3.3, automatic), libcairo-gobject2:amd64 (1.18.@-3build1, automatic), libxatracker2:amd64 (25.1.?-1ubuntu2%24.04.2, automatic)
+, Ubuntu-mono:amd64 (24.64-Gubuntu1, automatic), libxmu6:amd64 (2:1.1.3-3build2, automatic), humanity-icon-theme:amd64 (6.6.16, automatic), libgraphite2-3:amd64
+(1.3.14-2ubuntug.24.04.1, automatic), libdconf1:amd64 (6.46.6-dubuntu@.1, automatic), libcups2téd:amd64 (2.4.7-1.2ubuntu?.14, automatic), libxcvt@:amd64 (6.1.2
+
+-ibuildi, automatic), libatspi2.0-9t64:amd64 (2.52.0-1buildi, automatic), libgl1-mesa-dri:amd6é4 (25.2.8-9ubuntud.24.04.4, automatic), libxrandr2:amd6é4 (2:1.5.2-
+
+2build1, automatic), libxfont2:amd64 (1:2.6.6-1+deb13uibuildd.24.64.2, automatic), libfontenct:amd64 (1:1.1.8-1build1, automatic), Libpangomm-1.4-1vS:amd64 (2.4
+
+6.4-1build3, automatic), libxt6té4:amd64 (1:1.2.1-1.2build1, automatic), libpangocairo-1.0-6:amd64 (1.52.1+ds-1ibuild1, automatic), libxtst6é:amd64 (2:1.2.3-1.1bu
+
+ildi1, automatic), libxch-render@:amd64 (1.15-1ubuntu2, automatic), xserver-common:amd64 (2:21.1.12-1ubuntu1.8, automatic), gsettings-desktop-schemas:amd64 (46.1
+
+-@ubuntul, automatic), open-ym-tools:amd64 (2:13.6.16-6Uubuntud.24.04.2), xserver-xorg-video-vmware:amd64 (1:13.4.0-1build1, automatic), xcvt:amd64 (@.1.2-1build
+
+1, automatic), libice6:amd64 (2:1.0.16-1build3, automatic), mesa-vulkan-drivers:amd64 (25.2.8-@ubuntud.24.64.4, automatic), libpangoft2-1.0-@:amd64 (1.52.1+ds-1
+
+buildi, automatic), xfonts-encodings:amd64 (1:1.0.5-@ubuntu2, automatic), libxmlsecité4-openssl:amd64 (1.2.39-Sbuild2, automatic), libxslt1.1:amd64 (1.1.39-6exp
+
+lubuntu@.24.64.3, automatic), libatk1.6-9t64:amd64 (2.52.0-1build1, automatic), x11-xkb-utils:amd64 (7.7+8build2, automatic), libthai-data:amd6é4 (@.1.29-2build1
+» automatic), libavahi-common3:amd64 (6.8-13ubuntu6.2, automatic), librsvg2-2:amd64 (2.58.@+dfsg-d1ubuntu@.1, automatic), libxch-glx@:amd64 (1.15-1ubuntu2, autom
+
+atic), libxineramal:amd64 (2:1.1.4-3build1, automatic), libwayland-egli:amd64 (1.22.06-2.1build1, automatic), xfonts-utils:amd64 (41:7. 7+6build3, automatic), libd
+
+rm-amdgpul:amd64 (2.4.125-1ubuntug.1°24.64.2, automatic), dconf-gsettings-backend:amd64 (6.46.0-dubuntu@.1, automatic), libsensorsS:amd6é4 (1:3.6.0-9build1, auto
+
+matic), libxcb-randr@:amd64 (1.15-1ubuntu2, automatic), gtk-update-icon-cache:amd64 (3.24.41-4ubuntu1.3, automatic), libgtk-3-common:amd64 (3.24.41-4ubuntu1.3,
+
+automatic), libharfbuzz@b:amd64 (8.3.0-2build2, automatic), libgtk-3-bin:amd64 (3.24.41-4dubuntu1.3, automatic), xfonts-base:amd64 (1:1.8.5+nmu1, automatic), lib
+
+egl-mesa@:amd64 (25.2.8-6ubuntu@.24.64.4, automatic), session-migration:amd64 (6.3.9build1, automatic), libxcb-shm@:amd64 (1.15-1ubuntu2, automatic), libgtk-3-6
+
+t64:amd64 (3.24.41-dubuntu1.3, automatic), dconf-service:amd64 (6.46.@-dubuntu@.1, automatic), libgli:amd64 (1.7.6-1build1, automatic), libegli:amd6é4 (1.7.0-1bu
+
+ild1, automatic), libwayland-client@:amd64 (1.22.0-2.1build1, automatic), libloms2-2:amd64 (2.14-2ubuntu@.1, automatic), libatk-bridge2.6-@t64:amd64 (2.52.6-1bu
+
+ildi, automatic), libsigc++-2.0-@vS:amd64 (2.12.1-2, automatic), libepoxy@:amd64 (1.5.16-1buildi1, automatic), libxch-synci:amd64 (1.15-1ubuntu2, automatic), at-
+
+spi2-common:amd64 (2.52.6-1build1, automatic), libavahi-client3:amd6é4 (6.8-13ubuntu6é.2, automatic), libsm6:amd64 (2:1.2.3-1build3, automatic), libdrm-intel1:amd
+
+64 (2.4.125-1ubuntud.1°24.04.2, automatic), libxfixes3:amd64 (1:6.0.0-2buildi, automatic), libxi6:amd64 (2:1.8.1-1build1, automatic), libxch-xfixes@:amd64 (41.15
+
+-dubuntu2, automatic), libgdk-pixbuf2.@-common:amd64 (2.42.10+dfs¢-3ubuntu3.3, automatic)
+
+End-Date: 2026-10-15 20:14:22
+
+Start-Date: 2026-16-26 67:49:62
+
+Commandline: /usr/bin/unattended-upgrade
+
+Upgrade: python3-juwt:amd64 (2.7.@-1ubuntu@.3, 2.7.6-1ubuntud.4)
+
+End-Date: 2026-10-20 97:49:93
+
+Start-Date: 2026-10-26 07:49:07
+
+Commandline: /usr/bin/unattended-upgrade
+
+Upgrade: tzdata:amd64 (2026c-@ubuntu@.24.04.1, 2026e-Gubuntud.24.04.1)
+
+End-Date: 2026-10-20 07:49:08
+
+Start-Date: 2026-10-20 67:49:11
+
+Commandline: /usr/bin/unattended-upgrade
+
+Upgrade: libxtst6:amd64 (2:1.2.3-1.4buildi1, 2:1.2.3-4.1ubuntud.1)
+
+End Date: 90°F 10 2 7:49:19
+
+SOURCE env-b-env-b-p08-02.txt
+joy@joy:"$ sudo passwd -1 root
+[sudo] password for joy:
+
+passwd: password changed.
+joy@joy:"$ sudo passwd -S root
+*xKPOOt L 2626-69-69 6 99999 7 -1
+
+SOURCE env-b-env-b-p09-01.txt
+Joy@joy: S sudo aaguser alice
+[sudo] password for joy:
+info: Adding user ‘alice’ ...
+info: Selecting UID/GID from range 1906 to 59999 ...
+info: Adding new group ‘alice’ (1001) ...
+info: Adding new user “alice' (1001) with group “alice (1001)' ...
+info: Creating home directory “/home/alice' ...
+info: Copying files from “/etc/skel' ...
+New password:
+Retype new password:
+Sorry, passwords do not match.
+passwd: Authentication token manipulation error
+passwd: password unchanged
+Try again? [y/N] y
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for alice
+Enter the new value, or press ENTER for the default
+Full Name []: alice
+Room Number []: 1
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] y
+info: Adding new user “alice' to supplemental / extra groups “users' ...
+info: Adding user “alice' to group ‘users' ...
+joy@joy:~$ sudo usermod -aG sudo alice
+joy@joy:~$ id alice
+uid=1061(alice) gid=10@1(alice) groups=1001(alice) ,27 (sudo) ,19@(users)
+
+SOURCE env-b-env-b-p09-03.txt
+PS C:\WINDOWS\system32> ssh -o PubkeyAuthentication=no alice@192.168.43.128
+alice@192.168.43.128's password:
+Welcome to Ubuntu 24.04.5 LTS (GNU/Linux 6.8.0-139-generic x86_64)
+* Documentation: https://help.ubuntu.com
+* Management: https: //landscape.canonical.com
+* Support: https://ubuntu.com/pro
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+To restore this content, you can run the ‘unminimize' command.
+New release '26.04.1 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+alice@joy:~-$
+
+SOURCE env-b-env-b-p10-01.txt
+alice@joy:~$ sudo sshd -T | grep -Ei ‘permitrootlogin|passwordauthent ication’
+without -password
+yes
+alice@joy:~$ sudo sshd -t
+alice@joy:~$ sudo systemctl reload sshd
+alice@joy:~$ sudo systemctl reload ssh
+
+SOURCE env-b-env-b-p10-02.txt
+lice@joy:“$ ssh -o BatchMode=yes root@192.168.43.128
+oot@192.168.43.128: Permission denied (publickey,password).
+
+SOURCE env-b-env-b-p10-06.txt
+NO YM SUESTS are running OUTGated nypervisor (qemu) Hlnarles on thls Most.
+alice@joy:~$ sudo ufw allow OpenSSH
+
+Rules updated
+
+Rules updated (v6)
+
+alice@joy:~$ sudo ufw enable
+
+Firewall is active and enabled on system startup
+alice@joy:“$ sudo ufw status verbose
+
+Status: active
+
+Logging: on (low)
+
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To Action From
+
+22/tcp (OpenSSH) ALLOW IN Anywhere
+
+22/tcp (OpenSSH (v6)) ALLOW IN Anywhere (v6)
+alice@joy:"$

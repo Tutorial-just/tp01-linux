@@ -1,0 +1,29 @@
+# Fichiers locaux et sauvegardes
+**/historique/
+__pycache__/
+*.pyc
+*.bak
+*.swp
+~$*
+Thumbs.db
+.DS_Store
+
+# Archives et disques de VM
+*.zip
+*.iso
+*.vmdk
+*.vdi
+*.qcow2
+*.vmem
+*.vmss
+*.vmsn
+
+# Identifiants et secrets locaux
+.env
+.env.*
+!.env.example
+**/.ssh/
+id_rsa*
+id_ed25519*
+*.pem
+*.key

@@ -1,0 +1,29 @@
+﻿TEST DE CONNEXION DEPUIS WINDOWS
+2026-10-25T11:08:33.7114457+01:00
+Compte : vlad@192.168.198.128
+2026-10-25T11:08:34+01:00
+rhel9-lab
+uid=1000(vlad) gid=1000(vlad) groupes=1000(vlad),10(wheel) contexte=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+[sudo] Mot de passe de vlad┬á: 
+D├®sol├®, essayez de nouveau.
+[sudo] Mot de passe de vlad┬á: 
+D├®sol├®, essayez de nouveau.
+[sudo] Mot de passe de vlad┬á: 
+Entr├®es Defaults correspondant pour vlad sur rhel9-lab┬á:
+    !visiblepw, always_set_home, match_group_by_gid, always_query_group_plugin,
+    env_reset, env_keep="COLORS DISPLAY HOSTNAME HISTSIZE KDEDIR LS_COLORS",
+    env_keep+="MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE",
+    env_keep+="LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES",
+    env_keep+="LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE",
+    env_keep+="LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY",
+    secure_path=/sbin\:/bin\:/usr/sbin\:/usr/bin
+
+L'utilisateur vlad peut utiliser les commandes suivantes sur rhel9-lab┬á:
+    (ALL) ALL
+uid=0(root) gid=0(root) groupes=0(root) contexte=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+Connection to 192.168.198.128 closed.
+Code retour connexion par cle : 0
+
+TEST DU REFUS ROOT
+root@192.168.198.128: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
+Code retour test root : 255

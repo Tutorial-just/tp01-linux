@@ -1,0 +1,536 @@
+TEXTE EXTRAIT DU DOCUMENT FOURNI - ENVIRONNEMENT B
+Machine : rhel9-lab
+Source : TP 1 Socle installation et premier durcissement.pdf
+Le contenu ci-dessous est repris du PDF, avec ses retours a la ligne. Ce n'est pas une nouvelle execution.
+
+
+PAGE 11 DU PDF SOURCE
+RHEL 9 
+ 
+2026-10-22T19:16:26+02:00 
+Static hostname: rhel9-lab 
+      Icon name: computer-vm 
+        Chassis: vm 🖴 
+     Machine ID: 96a9dfe84bcf46a28c5b4018c8882f99 
+        Boot ID: 1dea85b08f5942b88971cfbfffc6ae86 
+ Virtualization: vmware 
+Operating System: Red Hat Enterprise Linux 9.8 (Plow) 
+    CPE OS Name: cpe:/o:redhat:enterprise_linux:9::baseos 
+         Kernel: Linux 5.14.0-687.57.1.el9_8.x86_64 
+   Architecture: x86-64 
+Hardware Vendor: VMware, Inc. 
+ Hardware Model: VMware20,1 
+Firmware Version: VMW201.00V.24006586.B64.2406042154 
+NAME               FSTYPE      FSVER            LABEL                    
+UUID                                   FSAVAIL FSUSE% MOUNTPOINTS 
+sr0                iso9660     Joliet Extension RHEL-9-8-0-BaseOS-x86_64 
+2026-05-11-17-14-45-00                                 
+nvme0n1                                                                   
+├─nvme0n1p1        vfat        FAT32                                     
+4A93-63D5                               503,4M     1% /boot/efi 
+├─nvme0n1p2        xfs                                                   
+1313d417-ace1-48cd-b603-542b42d1410a    651,7M    32% /boot 
+└─nvme0n1p3        LVM2_member LVM2 001                                  
+C7uZfR-VUrp-05ft-huPH-TyH5-T4ep-mbps1V                 
+ ├─vg_sys-lv_root xfs                                                   
+62a31a27-ffff-42cb-ac7f-d19cc2992568     15,9G    11% / 
+ ├─vg_sys-lv_swap swap        1                                         
+9a0bb38b-d062-4c62-8b96-e83ac7340b73                  [SWAP] 
+ ├─vg_sys-lv_var  xfs                                                   
+e68e735c-f44d-4dc4-99a0-7801eefcc987      9,3G     6% /var 
+ ├─vg_sys-lv_home xfs                                                   
+f42f6a5e-d6d1-4796-8f23-53603f437092      4,8G     3% /home 
+ └─vg_sys-var_log xfs                                                   
+e2c27a6d-604e-4d26-96a5-adf46fd3ea38      4,9G     2% /var/log 
+Sys. de fichiers           Type     Taille Utilisé Dispo Uti% Monté sur 
+devtmpfs                   devtmpfs   815M       0  815M   0% /dev 
+tmpfs                      tmpfs      838M       0  838M   0% /dev/shm 
+tmpfs                      tmpfs      335M    6,3M  329M   2% /run 
+efivarfs                   efivarfs   256K     57K  195K  23% 
+/sys/firmware/efi/efivars 
+/dev/mapper/vg_sys-lv_root xfs         18G    2,1G   16G  12% / 
+/dev/nvme0n1p2             xfs        960M    309M  652M  33% /boot 
+/dev/nvme0n1p1             vfat       511M    7,7M  504M   2% /boot/efi 
+/dev/mapper/vg_sys-lv_home xfs        5,0G    169M  4,8G   4% /home 
+/dev/mapper/vg_sys-lv_var  xfs         10G    642M  9,4G   7% /var 
+/dev/mapper/vg_sys-var_log xfs        5,0G     82M  4,9G   2% /var/log 
+tmpfs                      tmpfs      168M       0  168M   0% 
+/run/user/1000 
+tmpfs                      tmpfs      168M       0  168M   0% 
+/run/user/1001 
+NAME      TYPE      SIZE USED PRIO 
+/dev/dm-1 partition   2G 1,8M   -2 
+ VG     #PV #LV #SN Attr   VSize  VFree 
+ vg_sys   1   5   0 wz--n- 40,00g    0  
+              Local time: jeu. 2026-10-22 19:16:26 CEST 
+          Universal time: jeu. 2026-10-22 17:16:26 UTC 
+                RTC time: jeu. 2026-10-22 17:16:26 
+
+
+PAGE 12 DU PDF SOURCE
+ 
+               Time zone: Europe/Paris (CEST, +0200) 
+System clock synchronized: yes 
+             NTP service: active 
+         RTC in local TZ: no 
+ UNIT LOAD ACTIVE SUB DESCRIPTION 
+0 loaded units listed. 
+Mise à jour des référentiels de gestion des abonnements. 
+ID     | Ligne de commande                                                
+| Date et heure    | Action(s)      | Modifié 
+-------------------------------------------------------------------------
+----------------------------------------------- 
+    5 | -y update                                                        
+| 2026-10-22 09:23 | I, U           |   14    
+    4 | install -y libasan libubsan                                      
+| 2026-10-19 18:07 | Install        |    2    
+Mise à jour des référentiels de gestion des abonnements. 
+Identifiant de transaction : 5 
+Temps de début    : jeu. 22 oct. 2026 09:23:10 
+Début de RPMDB    : 
+b3337d16066e42e57adb3ef191c724fbac6d77aaac0650c5904dcaec85c1be13 
+Temps de fin : jeu. 22 oct. 2026 09:24:55 (105 secondes) 
+Fin de RPMDB : 
+4e86877da4fcab5b4c2f51a9fd2c5ec3b5f142348fb71dd36ddd0e8f735db014 
+Utilisateur  : joy <joy> 
+Code de retour  : Réussi 
+Version      : 9 
+Ligne de commande : -y update 
+Persistence    : Persist 
+Commentaire :  
+Paquets modifiés : 
+   Installer kernel-5.14.0-687.59.1.el9_8.x86_64              @rhel-9-
+for-x86_64-baseos-rpms 
+   Installer kernel-core-5.14.0-687.59.1.el9_8.x86_64         @rhel-9-
+for-x86_64-baseos-rpms 
+   Installer kernel-modules-5.14.0-687.59.1.el9_8.x86_64      @rhel-9-
+for-x86_64-baseos-rpms 
+   Installer kernel-modules-core-5.14.0-687.59.1.el9_8.x86_64 @rhel-9-
+for-x86_64-baseos-rpms 
+   Installer perl-Unicode-Normalize-1.27-461.el9.x86_64       @rhel-9-
+for-x86_64-appstream-rpms 
+   Upgrade   kernel-tools-5.14.0-687.59.1.el9_8.x86_64        @rhel-9-
+for-x86_64-baseos-rpms 
+   Upgraded  kernel-tools-5.14.0-687.57.1.el9_8.x86_64        @@System 
+   Upgrade   kernel-tools-libs-5.14.0-687.59.1.el9_8.x86_64   @rhel-9-
+for-x86_64-baseos-rpms 
+   Upgraded  kernel-tools-libs-5.14.0-687.57.1.el9_8.x86_64   @@System 
+   Upgrade   openssh-9.9p1-13.el9_8.x86_64                    @rhel-9-
+for-x86_64-baseos-rpms 
+   Upgraded  openssh-9.9p1-12.el9_8.x86_64                    @@System 
+   Upgrade   openssh-clients-9.9p1-13.el9_8.x86_64            @rhel-9-
+for-x86_64-baseos-rpms 
+   Upgraded  openssh-clients-9.9p1-12.el9_8.x86_64            @@System 
+   Upgrade   openssh-server-9.9p1-13.el9_8.x86_64             @rhel-9-
+for-x86_64-baseos-rpms 
+   Upgraded  openssh-server-9.9p1-12.el9_8.x86_64             @@System 
+   Upgrade   insights-core-3.8.4-1.el9_8.noarch               @rhel-9-
+for-x86_64-appstream-rpms 
+   Upgraded  insights-core-3.8.2-1.el9_8.noarch               @@System 
+
+
+PAGE 13 DU PDF SOURCE
+ 
+   Upgrade   insights-core-selinux-3.8.4-1.el9_8.noarch       @rhel-9-
+for-x86_64-appstream-rpms 
+   Upgraded  insights-core-selinux-3.8.2-1.el9_8.noarch       @@System 
+   Upgrade   kernel-headers-5.14.0-687.59.1.el9_8.x86_64      @rhel-9-
+for-x86_64-appstream-rpms 
+   Upgraded  kernel-headers-5.14.0-687.57.1.el9_8.x86_64      @@System 
+   Upgrade   perl-URI-5.09-3.el9_8.1.noarch                   @rhel-9-
+for-x86_64-appstream-rpms 
+   Upgraded  perl-URI-5.09-3.el9.noarch                       @@System 
+root LK 1969-12-31 0 99999 7 -1 (Mot de passe verrouillé.) 
+permitrootlogin no 
+passwordauthentication yes 
+lo               UNKNOWN        127.0.0.1/8 ::1/128  
+ens160           UP             192.168.43.129/24 
+fe80::20c:29ff:feca:c65c/64  
+ens224           UP             10.42.0.11/24  
+public 
+ interfaces: ens224 ens160 
+block 
+ target: %%REJECT%% 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services:  
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+dmz 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+drop 
+ target: DROP 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services:  
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+
+
+PAGE 14 DU PDF SOURCE
+ 
+forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+external 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: yes 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+home 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: cockpit dhcpv6-client mdns samba-client ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+internal 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: cockpit dhcpv6-client mdns samba-client ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+nm-shared 
+ target: ACCEPT 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: dhcp dns ssh 
+ ports:  
+ protocols: icmp ipv6-icmp 
+
+
+PAGE 15 DU PDF SOURCE
+ 
+ 
+UBUNTU 
+forward: no 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+rule priority="32767" reject 
+public (active) 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces: ens160 ens224 
+ sources:  
+ services: cockpit dhcpv6-client ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+trusted 
+ target: ACCEPT 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services:  
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+work 
+ target: default 
+ icmp-block-inversion: no 
+ interfaces:  
+ sources:  
+ services: cockpit dhcpv6-client ssh 
+ ports:  
+ protocols:  
+ forward: yes 
+ masquerade: no 
+ forward-ports:  
+ source-ports:  
+ icmp-blocks:  
+ rich rules:  
+2026-10-22T19:16:37+02:00
+
+
+CAPTURES COMPLEMENTAIRES - LECTURES AUTOMATIQUES
+Ces lectures ne remplacent pas les captures originales. Leurs dates sont celles visibles dans les images ; aucune nouvelle date de collecte n'est attribuee.
+
+SOURCE env-b-env-b-p04-01.txt
+hee sy 4 bbe Se NO OU OI UE OS
+[ joy@rhe19-lab ~J1§$ hostnamect1
+Static hostname: rhel9-lab
+Icon name: computer-vm
+Chassis: vm @
+Machine ID: 96a9dfe84bcf46a28c5b4018c8882F 99
+Boot ID: 1dea85b@8f5942b8897 icf bf ffcbae86
+Virtualization: vmware
+Operating System: Red Hat Enterprise Linux 9.8 (Plow)
+CPE OS Name: cpe:/o:redhat :enterprise_linux:9: :baseos
+Kernel: Linux 5.14.6-687.57.1.e19_8.x86_64
+Architecture: x66-64
+Hardware Vendor: UMware, Inc.
+Hardware Model: UMware2@,1
+Firmware Version: VMW281.00U.24006586 . B64 .2486042154
+
+SOURCE env-b-env-b-p04-02.txt
+[ joy@rhel9-lab ~“1$ cat /etc/os-release
+
+NAME=""Red Hat Enterprise Linux”
+
+VERSION="9.8 (Plow)”
+
+ID="rhel”
+
+ID_LIKE="fedora”
+
+VERSION_ID="9.8"
+
+PLATFORM_ID="platform:e19"
+
+PRETTY_NAME="Red Hat Enterprise Linux 9.8 (Plow)”
+ANSI_COLOR="8;31"
+
+LOGO="f edora-logo-icon”
+CPE_NAME="cpe:/o:redhat :enterpr ise_]inux:9::baseos”
+HOME_URL="https ://tass.redhat .com’”
+DOCUMENTATION_URL="https ://access .redhat .com/documentat ion/en-us/red_hat_enterpr ise_linux/9"
+BUG_REPORT_URL="https://issues.redhat .com’”
+REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 9”
+REDHAT_BUGZILLA_PRODUCT_VERS ION=9 .8
+REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux”
+REDHAT SUPPORT PRODUCT VERSION="9.8"
+
+SOURCE env-b-env-b-p04-03.txt
+[ joy@rhel9-lab ~1$ uname -r
+5.14.8-687.57.1.e19_8.x66_64
+
+SOURCE env-b-env-b-p04-04.txt
+[ joy@rhel9-lab ~1$ systemctl --failed
+UNIT LOAD ACTIVE SUB DESCRIPTION
+@ loaded units listed.
+
+SOURCE env-b-env-b-p05-01.txt
+[ joy@rhe19-lab ~J§ systemctl] list-units --type=service --state=rumning | head -38
+UNIT LOAD ACTIVE SUB DESCRIPTION
+auditd.service loaded active running Security Auditing Service
+chronyd .service loaded active running NTP client/server
+crond.service loaded active running Command Scheduler
+dbus-broker .service loaded active running D-Bus System Message Bus
+firewalld.service loaded active running firewalld - dynamic firewall daemon
+getty@ttyl.service loaded active running Getty on ttyl
+irgbalance.service loaded active running irgbalance daemon
+NetworkManager .service loaded active running Network Manager
+polkit.service loaded active running Authorization Manager
+rhsmcertd.service loaded active running Enable periodic update of entitlement certificates.
+rsys log .service loaded active running System Logging Service
+sshd.service loaded active running OpenSSH server daemon
+systemd- journald.service loaded active running Journal Service
+systemd-logind.service loaded active running User Login Management
+systemd-udevd .service loaded active running Rule-based Manager for Device Events and Files
+user@1608.service loaded active running User Manager for UID 1608
+vgauthd .service loaded active running UGAuth Service for open-vm-tools
+vmtoolsd.service loaded active running Service for virtual machines hosted on UMware
+LOAD == Reflects whether the unit definition was properly loaded.
+ACTIVE = The high-level unit activation state, i.e. generalization of SUB.
+SUB = The low-level unit activation state, values depend on unit type.
+18 Inaded tmite listed.
+
+SOURCE env-b-env-b-p06-03.txt
+[ joy@rhel9-lab ~J§ localectl status
+System Locale: LANG=fr_FR.UTF-8
+UC Keymap: fr-oss
+X11 Layout: fr
+X11 Variant: oss
+
+[ joy@rhel9-lab ~J§ locale -a | grep -i fr_FR
+fr_FR
+fr_FR@euro
+fr_FR.utf8
+[ joy@rhel9-lab ~1§$ timedatect1 status
+
+Local time: mer. 2826-10-21 23:40:23 CEST
+
+Universal time: mer. 2026-18-21 21:48:23 UTC
+RTC time: mer. 2026-18-21 21:48:23
+Time zone: Europe/Paris (CEST, +8200)
+System clock synchronized: yes
+NTP service: active
+RTC in local TZ: no
+
+L joy@rhel9-lab ~1S timedatectl set-timezone Europe/Paris
+
+SOURCE env-b-env-b-p07-01.txt
+[ joy@rhe19-lab ~J1§ sudo dnf history | head -28
+
+Mise 4 jour des référentiels de gestion des abomements.
+
+ID | Ligne de commande | Date et heure | Action(s) | Modif ié
+5 | -y update | 2026-18-22 89:23 | I, U | 14
+4 1 install -y libasan libubsan | 2026-16-19 18:87 | Install | 2
+3 1 install -y gcc make glibc-devel strace valgrind | 2626-16-14 18:85 | Install 1 81
+2 | install -y nano | 2026-16-14 11:32 | Install | 1<
+il | 2626-16-13 17:57 | Install | 434 >E
+
+[ joy@rhe19-lab ~1$ sudo dnf repolist
+
+Mise 4 jour des référentiels de gestion des abomements.
+
+id du dépét nom du dépot
+
+rhe1-9-for-x66_64-appstream-rpms Red Hat Enterprise Linux 9 for x66_64 - AppStream (RPMs)
+
+rhe1l-9-for-x66_64-baseos-rpms Red Hat Enterprise Linux 9 for x66_64 - BaseOS (RPMs)
+
+[ joy@rhe19-lab ~1§$ sudo dnf -y update
+
+Mise 4 jour des référentiels de gestion des abonnements.
+
+Derniére vérification de 1’expiration des métadonnées effectuée il y a 10:37:43 le mer. 21 oct. 2026 22:49:21.
+
+Dépendances résolues.
+
+Rien 4 faire.
+
+Terminé ¢
+
+SOURCE env-b-env-b-p08-01.txt
+[ joy@localhost ~J§ sudo passwd -1 root
+
+[sudo] Mot de passe de joy :
+
+Verrouillage du mot de passe pour l'utilisateur root.
+passwd: Succés
+
+[ joy@localhost ~J1§ sudo passwd -S root
+
+root LK 1969-12-31 @ 99999 7 -1 (Mot de passe verrouillé.)
+
+SOURCE env-b-env-b-p09-02.txt
+[joy@rhel9-lab “I$ id alice
+uid=1681(alice) gid=1881(alice) groupes=1661(alice),1@(wheel)
+
+SOURCE env-b-env-b-p09-04.txt
+PS C:\WINDOWS\system32> Get-Content “$env:USERPROFILE\.ssh\id_ed25519.pub" | ssh alice@192.168.43.129 ‘umask @77; mkdi
+r -p ~/.ssh3 cat > ~/.ssh/authorized_keys; chmod 700 ~/.ssh; chmod 600 ~/.ssh/authorized_keys'
+The authenticity of host '192.168.43.129 (192.168.43.129)' can't be established.
+
+ED25519 key fingerprint is SHA256:SiT7YGGns6V5xX4sgZO1rCcPw49f06rdPCiUyG6dBT/QE.
+
+This key is not known by any other names.
+
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+
+Warning: Permanently added '192.168.43.129' (ED25519) to the list of known hosts.
+alice@192.168.43.129's password:
+
+PS C:\WINDOWS\system32> ssh -i “$Senv:USERPROFILE\.ssh\id_ed25519" alice@192.168.43.129
+
+Enter passphrase for key 'C:\Users\joyte\.ssh\id_ed25519':
+
+Last login: Wed Oct 14 11:15:48 2026
+
+Talice@localhost ~1¢$ _
+
+SOURCE env-b-env-b-p10-03.txt
+[alice®@localhost ~J§ sudo sshd -T | grep -Ei ‘permitroot login|passwordauthent ication‘
+[sudo] Mot de passe de alice :
+
+permitrootlogin without-password
+
+passwordauthentication yes
+
+[alice@localhost ~J$ sudo sshd -t
+
+Calice®@ localhost “I$ sudo systemctl reload sshd
+
+SOURCE env-b-env-b-p10-04.txt
+alice@localhost ~1$ ssh -o BatchMode=yes root@192.168.43.129
+o0t@192.168.43.129: Permission denied (publickey,gssapi-keyex,gssapi-with-mic, password).
+_ ws... ree ee oc whl
+
+SOURCE env-b-env-b-p10-05.txt
+[ joy@rhe19-lab ~1§ sudo firewall-cmd --permanent --add-service=ssh
+[sudo] Mot de passe de joy :
+darning: ALREADY_ENABLED: ssh
+SUCCESS
+[ joy@rhe19-lab ~1§ sudo firewall-cmd --reload
+SUCCESS
+[ joy@rhe19-lab ~1§ sudo firewall-cmd --list-all
+xxpublic (active)
+
+target: default
+
+icmp-block-inversion: no
+
+interfaces: ensi6@ ens224
+
+sources:
+
+services: cockpit dhcpv6-client ssh
+
+ports:
+
+protocols:
+
+forward: yes
+
+masquerade: no
+
+forward-ports:
+
+source-ports:
+
+icmp-blocks:
+
+rich rules:
